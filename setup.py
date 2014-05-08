@@ -11,6 +11,11 @@ with open("requirements.txt", "r+") as f:
     for line in f.readlines():
         reqs.append(line.strip())
 
+reqs = []
+with open("requirements.tests.txt", "r+") as f:
+    for line in f.readlines():
+        reqs.append(line.strip())
+
 try:
    import pypandoc
    long_description = pypandoc.convert('README.md', 'rst')
@@ -27,6 +32,7 @@ setup(
     version=VERSION,
     download_url = ['https://github.com/greenkahuna/django-seo-js/tarball/%s' % VERSION, ],
     install_requires=reqs,
+    tests_require=test_reqs,
     packages=find_packages(),
     include_package_data=True,
     keywords = ["seo", "django", "ajax", "angular", "backbone", "ember", "famous", "google", "bing", "yahoo"],

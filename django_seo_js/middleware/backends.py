@@ -9,14 +9,13 @@ DEFAULT_BACKEND = "django_seo_js.backends.PrerenderIO"
 class SelectedBackend(object):
 
     def __init__(self, *args, **kwargs):
-        if settings.get("SEO_JS_BACKEND", None):
-            module_path = settings.get("SEO_JS_BACKEND")
+        if getattr(settings, "SEO_JS_BACKEND", None):
+            module_path = getattr(settings, "SEO_JS_BACKEND")
         else:
             module_path = DEFAULT_BACKEND
 
-        backend_module = importlib.import_module(module_path)
-        self.backend = backend_module()
-        print self.backend
+        backend_module = importlib.import_module(".".join(module_path.split(".")[:-1]))
+        self.backend = getattr(backend_module, module_path.split(".")[-1])()
 
 
 class SEOBackendBase(object):
@@ -42,4 +41,11 @@ class PrerenderIO(SEOBackendBase):
 class PrerenderHosted(PrerenderIO):
     """Implements the backend for an arbitrary prerender service
        specified in settings.SEO_JS_PRERENDER_URL"""
-    BASE_URL = settings.get("SEO_JS_PRERENDER_URL")
+    BASE_URL = getattr(settings, "SEO_JS_PRERENDER_URL", None)
+
+
+class TestBackend(SEOBackendBase):
+    """Implements a test backend"""
+
+    def get_rendered_page(self, url):
+        return "Test"
