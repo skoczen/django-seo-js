@@ -2,7 +2,7 @@ from mock import Mock
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from django_seo_js.middleware.middleware import HashBangMiddleware, UserAgentMiddleware
+from django_seo_js.middleware import HashBangMiddleware, UserAgentMiddleware
 
 
 

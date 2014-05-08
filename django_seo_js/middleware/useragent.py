@@ -1,6 +1,6 @@
 import re
 from django.conf import settings
-from .backends import SelectedBackend
+from django_seo_js.backends import SelectedBackend
 
 DEFAULT_SEO_JS_USER_AGENTS = [
     "Googlebot",
@@ -9,14 +9,6 @@ DEFAULT_SEO_JS_USER_AGENTS = [
     "Badiu",
     "Ask Jeeves",
 ]
-
-
-class HashBangMiddleware(SelectedBackend):
-    def process_request(self, request):
-        if "_escaped_fragment_" in request.GET:
-            url = "%s://%s%s" % (request.protocol, request.host, request.uri)
-            return self.backend.get_rendered_page(url)
-
 
 class UserAgentMiddleware(SelectedBackend):
     def __init__(self, *args, **kwargs):
@@ -27,7 +19,7 @@ class UserAgentMiddleware(SelectedBackend):
             agents = DEFAULT_SEO_JS_USER_AGENTS
         regex_str = "|".join(agents)
         regex_str = ".*?(%s)" % regex_str
-        self.USER_AGENT_REGEX = re.compile(regex_str)
+        self.USER_AGENT_REGEX = re.compile(regex_str, re.IGNORECASE)
 
     def process_request(self, request):
         if self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"]):

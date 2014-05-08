@@ -20,13 +20,12 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django_seo_js.middleware.HashBangMiddleware',
+    'django_seo_js.middleware.UserAgentMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-
-    'django_seo_js.middleware.HashBangMiddleware',
-    'django_seo_js.middleware.UserAgentMiddleware',
 )
 
 # ROOT_URLCONF = 'djproject.urls'
@@ -41,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 )
+INSTALLED_APPS += ('django_seo_js',)
 
 CACHES = {
     'default': {

@@ -1,8 +1,11 @@
-from mock import Mock
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.template import Template, Context
 
 
 class TagsTest(TestCase):
-    def test_not_done(self):
-        self.assertEqual("Tests written", True)
+
+    def test_seo_js_head(self):
+        t = Template("{% load django_seo_js %}{% seo_js_head %}")
+        c = Context({})
+        t.render(c)
+        self.assertEqual(t, """<meta name="fragment" content="!">""")
