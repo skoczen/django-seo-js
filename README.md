@@ -1,31 +1,31 @@
 django-seo-js
 =============
 
-Django-seo-js is a drop-in app that provides full SEO support for angular, backbone, ember, famous, or SPA apps built with django.
+Django-seo-js is a drop-in app that provides full SEO support for angular, backbone, ember, famo.us, or other SPA apps built with django.
 
 It's simple to set up, configurable to use multiple services, and easy to customize.
 
 Quick-links:
-- [Installation:](README.md#installation)
-- [Options:](README.md#options)
-    - [Settings:](README.md#Settings)
-    - [Backends:](README.md#backends)
-    - [Details:](README.md#details)
+- [Installation](README.md#installation)
+- [Options](README.md#options)
+    - [Settings](README.md#Settings)
+    - [Backends](README.md#backends)
+    - [Details](README.md#details)
 - [Releases](README.md#releases)
 
 
 # Installation
 
-1. Pip install
+Pip install
 
-```
+```bash
 pip install django-seo-js
 ```
 
 
-2. Add to your settings.py:
+Add to your settings.py:
 
-```
+```python
 MIDDLEWARE_CLASSES = (
     'django_seo_js.middleware.HashBangMiddleware',  # If you're using #!
     'django_seo_js.middleware.UserAgentMiddleware',  # If you want to detect by user agent
@@ -36,7 +36,7 @@ SEO_JS_BACKEND = "django_seo_js.backends.PrerenderIO"   # Default
 SEO_JS_PRERENDERIO_API_KEY = "123189jlisadflkaskjflka"
 ```
 
-3. Add this to your base.html
+Add this to your base.html
 
 ```html
 {% load django_seo_js %}
@@ -46,15 +46,17 @@ SEO_JS_PRERENDERIO_API_KEY = "123189jlisadflkaskjflka"
 </head>
 ```
 
-4. That's it!
+That's it!
 
 
 # Options
 
 ## Settings
 
+```python
 SEO_JS_BACKEND = "django_seo_js.backends.PrerenderIO"   # Default
 SEO_JS_PRERENDERIO_API_KEY = "123189jlisadflkaskjflka"
+```
 
 
 ## Backends
