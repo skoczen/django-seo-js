@@ -4,5 +4,5 @@ from django.test.utils import override_settings
 
 
 class BackendTest(TestCase):
-    def test_not_done(self):
+    def test_update_the_render_cache(self):
         self.assertEqual("Tests written", True)

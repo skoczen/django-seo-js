@@ -1,6 +1,8 @@
 django-seo-js
 =============
 
+![Build status](https://circleci.com/gh/greenkahuna/django-seo-js.png?circle-token=90ca5d5cbeb2af20bc378faf1b196e6c03e69f26)
+
 django-seo-js is a drop-in app that provides full SEO support for angular, backbone, ember, famo.us, and other SPA apps built with django.
 
 It's simple to set up, configurable to use multiple services, and easy to customize.
