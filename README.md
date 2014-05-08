@@ -77,7 +77,7 @@ SEO_JS_BACKEND = "django_seo_js.backends.PrerenderIO"   # Default
 # User-agents to render for, if you're using the UserAgentMiddleware
 # Defaults to the most popular.  If you have custom needs, pull from the full list:
 # http://www.useragentstring.com/pages/Crawlerlist/
-SEO_JS_CRAWLERLIST = [
+SEO_JS_USER_AGENTS = [
     "Googlebot",
     "Yahoo",
     "bingbot",
@@ -91,7 +91,7 @@ SEO_JS_CRAWLERLIST = [
 ## Backend settings
 
 ### Prerender.io
-Django-seo-js defaults to using prerender.io because it's both [open-source](https://github.com/prerender/prerender) if you want to run it yourself, *and* really reasonably priced if you don't.
+django-seo-js defaults to using prerender.io because it's both [open-source](https://github.com/prerender/prerender) if you want to run it yourself, *and* really reasonably priced if you don't.
 
 
 To use [prerender.io](http://prerender.io),
