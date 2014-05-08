@@ -11,7 +11,7 @@ class BaseMiddlewareTest(TestCase):
 
 class HashBangMiddlewareTest(TestCase):
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.middleware.backends.TestBackend')
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def setUp(self):
         super(HashBangMiddlewareTest, self).setUp()
         self.middleware = HashBangMiddleware()
@@ -30,7 +30,7 @@ class HashBangMiddlewareTest(TestCase):
 class UserAgentMiddlewareTest(TestCase):
 
     
-    @override_settings(SEO_JS_BACKEND='django_seo_js.middleware.backends.TestBackend')
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def setUp(self):
         super(UserAgentMiddlewareTest, self).setUp()
         self.middleware = UserAgentMiddleware()
@@ -50,7 +50,7 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
     @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",])
-    @override_settings(SEO_JS_BACKEND='django_seo_js.middleware.backends.TestBackend')
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_matches(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {
@@ -59,7 +59,7 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), "Test")
 
     @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",])
-    @override_settings(SEO_JS_BACKEND='django_seo_js.middleware.backends.TestBackend')
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_does_not_match_properly(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {

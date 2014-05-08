@@ -9,4 +9,4 @@ class TestBackend(SEOBackendBase):
         return "Test"
 
     def update_url(self, url):
-        return True
+        return "Test worked"

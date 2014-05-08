@@ -7,5 +7,5 @@ class TagsTest(TestCase):
     def test_seo_js_head(self):
         t = Template("{% load django_seo_js %}{% seo_js_head %}")
         c = Context({})
-        t.render(c)
-        self.assertEqual(t, """<meta name="fragment" content="!">""")
+        rendered_html = t.render(c)
+        self.assertEqual(rendered_html, """<meta name="fragment" content="!">""")
