@@ -48,3 +48,5 @@ CACHES = {
         'LOCATION': 'django_seo_js'
     }
 }
+
+SEO_JS_PRERENDER_TOKEN = "123456789"

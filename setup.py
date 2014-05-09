@@ -11,10 +11,10 @@ with open("requirements.txt", "r+") as f:
     for line in f.readlines():
         reqs.append(line.strip())
 
-reqs = []
+test_reqs = []
 with open("requirements.tests.txt", "r+") as f:
     for line in f.readlines():
-        reqs.append(line.strip())
+        test_reqs.append(line.strip())
 
 try:
    import pypandoc

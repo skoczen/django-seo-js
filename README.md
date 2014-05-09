@@ -123,6 +123,7 @@ If you're hosting your own instance of [prerender](https://github.com/prerender/
 ```python
 SEO_JS_BACKEND = "django_seo_js.backends.PrerenderHosted"
 SEO_JS_PRERENDER_URL = "http://my-prerenderapp.com"
+SEO_JS_PRERENDER_RECACHE_URL = "http://my-prerenderapp.com/recache"
 ```
 
 
@@ -140,6 +141,8 @@ If even that's TL;DR for you, here's a bullet-point summary:
 # Contributing
 
 PRs with additional backends, bug-fixes, documentation and more are definitely welcome! 
+
+Please add tests to any new functionality - you can run tests with `python manage.py test`
 
 
 # Releases
