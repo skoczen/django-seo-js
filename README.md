@@ -149,7 +149,7 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 ### 0.1.2 - May 9, 2014
 
-* Handles cases where a request didn't come with a User-agent
+* Handles cases where a request didn't come with a User-agent.
 
 
 ### 0.1.1 - May 9, 2014
