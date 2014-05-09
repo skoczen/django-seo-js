@@ -4,4 +4,4 @@ dependencies:
 
 test:
   override:
-    - nosetests .
+    - python manage.py test
