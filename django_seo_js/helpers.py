@@ -1,4 +1,3 @@
-
 from django_seo_js.backends import SelectedBackend
 
 def update_cache_for_url(url):

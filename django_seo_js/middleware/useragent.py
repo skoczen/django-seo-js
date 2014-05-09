@@ -1,6 +1,7 @@
 import re
 from django.conf import settings
 from django_seo_js.backends import SelectedBackend
+from django.http import HttpResponse
 
 DEFAULT_SEO_JS_USER_AGENTS = [
     "Googlebot",
@@ -23,5 +24,5 @@ class UserAgentMiddleware(SelectedBackend):
 
     def process_request(self, request):
         if self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"]):
-            url = "%s://%s%s" % (request.protocol, request.host, request.uri)
-            return self.backend.get_rendered_page(url)
+            url = request.build_absolute_uri()
+            return HttpResponse(self.backend.get_rendered_page(url))

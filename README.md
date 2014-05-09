@@ -37,7 +37,7 @@ MIDDLEWARE_CLASSES = (
     'django_seo_js.middleware.UserAgentMiddleware',  # If you want to detect by user agent
 ) + MIDDLEWARE_CLASSES
 
-INSTALLED_APPS += ('django_ses_js',)
+INSTALLED_APPS += ('django_seo_js',)
 
 # If you're using prerender.io (the default backend):
 SEO_JS_PRERENDER_TOKEN = "123456789abcdefghijkl"
