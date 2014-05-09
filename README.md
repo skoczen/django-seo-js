@@ -65,6 +65,15 @@ from django_seo_js.helpers import update_cache_for_url
 update_cache_for_url("/my-url")
 ```
 
+So, for instance, you might want something like:
+
+```python
+def listing_changed(sender, instance, created, **kwargs):
+    update_cache_for_url("%s%s" % ("http://example.com/", reverse("listing_detail", instance.pk))
+
+post_save.connect(listing_changed, sender=Listing)
+```
+
 
 # Options
 
