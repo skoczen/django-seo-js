@@ -1,3 +1,7 @@
+dependencies:
+  override:
+    - pip install -r requirements.tests.txt
+
 test:
   override:
     - nosetests .
