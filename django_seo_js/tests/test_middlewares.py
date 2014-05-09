@@ -66,3 +66,11 @@ class UserAgentMiddlewareTest(TestCase):
             "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",])
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    def test_missing_user_agent_still_works(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.META = {}
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
