@@ -147,6 +147,11 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 # Releases
 
+### 0.1.1 - May 9, 2014
+
+* Improvements to unit tests.
+
+
 ### 0.1 - May 8, 2014
 
 * Includes `PrerenderIO` and `PrerenderHosted` backends.
