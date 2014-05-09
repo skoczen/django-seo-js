@@ -20,7 +20,7 @@ class HashBangMiddlewareTest(TestCase):
 
     def test_has_escaped_fragment(self):
         self.request.GET = {"_escaped_fragment_": None}
-        self.assertEqual(self.middleware.process_request(self.request), "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
 
     def test_does_not_have_escaped_fragment(self):
         self.request.GET = {}
@@ -41,7 +41,7 @@ class UserAgentMiddlewareTest(TestCase):
         self.request.META = {
             "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
         }
-        self.assertEqual(self.middleware.process_request(self.request), "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
 
     def test_does_not_match_one_of_the_default_user_agents(self):
         self.request.META = {
@@ -56,7 +56,7 @@ class UserAgentMiddlewareTest(TestCase):
         self.request.META = {
             "HTTP_USER_AGENT": "The TestUserAgent v1.0"
         }
-        self.assertEqual(self.middleware.process_request(self.request), "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
 
     @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",])
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
