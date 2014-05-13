@@ -25,6 +25,17 @@ class HashBangMiddlewareTest(TestCase):
     def test_does_not_have_escaped_fragment(self):
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
+     
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', DEBUG=True)
+    def test_has_escaped_fragment_skips_if_disabled_via_debug(self):
+        self.request.GET = {}
+        self.assertEqual(self.middleware.process_request(self.request), None)
+        
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', SEO_JS_ENABLED=False)
+    def test_has_escaped_fragment_skips_if_disabled_via_enabled(self):
+        self.request.GET = {}
+        self.assertEqual(self.middleware.process_request(self.request), None)
+        
 
 
 class UserAgentMiddlewareTest(TestCase):
@@ -49,8 +60,7 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",])
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",], SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_matches(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {
@@ -58,8 +68,7 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request).content, "Test")
 
-    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",])
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",], SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_does_not_match_properly(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {
@@ -67,10 +76,26 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",])
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",], SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def test_missing_user_agent_still_works(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', DEBUG=True)
+    def test_overriding_matches_skips_if_disabled_via_debug(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.META = {
+            "HTTP_USER_AGENT": "The TestUserAgent v1.0"
+        }
+        self.assertEqual(self.middleware.process_request(self.request), None)
+        
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', SEO_JS_ENABLED=False)
+    def test_overriding_matches_skips_if_disabled_via_enabled(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.META = {
+            "HTTP_USER_AGENT": "The TestUserAgent v1.0"
+        }
+        self.assertEqual(self.middleware.process_request(self.request), None)
+        
 

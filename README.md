@@ -85,6 +85,8 @@ For the most part, you shouldn't need to override these - we've aimed for sensib
 # Backend to use
 SEO_JS_BACKEND = "django_seo_js.backends.PrerenderIO"   # Default
 
+# Whether to run the middlewares and update_cache_for_url.  Useful to set False for unit testing.
+SEO_JS_ENABLED = True # Defaults to *not* DEBUG.
 
 # User-agents to render for, if you're using the UserAgentMiddleware
 # Defaults to the most popular.  If you have custom needs, pull from the full list:
@@ -146,6 +148,12 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 
 # Releases
+
+
+### 0.1.3 - May 13, 2014
+
+* Adds a `SEO_JS_ENABLED` setting, so you can disable hooks and middlewares during tests.
+
 
 ### 0.1.2 - May 9, 2014
 
