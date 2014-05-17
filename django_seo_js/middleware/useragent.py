@@ -11,14 +11,21 @@ DEFAULT_SEO_JS_USER_AGENTS = [
     "Ask Jeeves",
 ]
 # TODO Next steps:
+# 0. See questions below
 # 1. Pull this into its own file
 # 2. Write unit tests for it
 # 3. Make sure we have a clear abstraction and inheritance.
+# 4. document this, including the readme changes.
+
 class DjangoSeoJSMiddlewareHelpers(object):
 
     def build_django_response_from_requests_response(self, response):
         raise NotImplementedError
+        
 
+        # Should we have a RequestBasedBackend that handles this?
+        # All backends are expected to return None or HttpResponse?
+        # Think abou tthis with a fresh brain.
         r = HttpResponse(content)
         for k, v in r.headers.items():
             r[k] = v

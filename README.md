@@ -128,6 +128,25 @@ SEO_JS_PRERENDER_URL = "http://my-prerenderapp.com"
 SEO_JS_PRERENDER_RECACHE_URL = "http://my-prerenderapp.com/recache"
 ```
 
+### Writing your own backend
+
+If it's a backend for a public service, please consider submitting your backend as a PR, so everyone can benefit!
+
+Backends must implement the following methods:
+
+```python
+
+class MyBackend(SEOBackendBase):
+
+    def get_rendered_page(self, url):
+        """Accepts a fully-qualified url, returns the page body"""
+        raise NotImplementedError
+
+    def update_url(self, url):
+        """Force an update of the cache for a particular URL."""
+        raise NotImplementedError
+```
+
 
 ## How it all works
 
