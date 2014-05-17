@@ -6,13 +6,17 @@ from httmock import all_requests, HTTMock, urlmatch
 from django_seo_js.backends import PrerenderIO
 
 MOCK_RESPONSE = "<html><body><h1>Hello, World!</h1></body></html>"
+MOCK_RESPONSE_HEADERS = {"foo": "bar"}
 MOCK_RECACHE_RESPONSE = "OK"
+MOCK_RECACHE_HEADERS = {"ibbity": "ack"}
+
 
 @all_requests
 def mock_prerender_recache_response(url, request):
     return { 
         'status_code': 200,
         'content': MOCK_RECACHE_RESPONSE,
+        'headers': MOCK_RECACHE_HEADERS,
     }
 
 @all_requests
@@ -20,6 +24,7 @@ def mock_prerender_response(url, request):
     return { 
         'status_code': 200,
         'content': MOCK_RESPONSE,
+        'headers': MOCK_RESPONSE_HEADERS,
     }
 
 
@@ -49,17 +54,21 @@ class PrerenderIOTestMethods(TestCase):
 
     def test_get_rendered_page_valid(self):
         with HTTMock(mock_prerender_response):
-            self.assertEqual(MOCK_RESPONSE, self.backend.get_rendered_page("http://www.example.com"))
+            resp, headers = self.backend.get_rendered_page("http://www.example.com")
+            self.assertEqual(MOCK_RESPONSE, resp)
+            self.assertEqual(MOCK_RESPONSE_HEADERS, headers)
 
     def test_update_url_with_url_only(self):
         with HTTMock(mock_prerender_recache_response):
-            resp = self.backend.update_url(url="http://www.example.com")
+            resp, headers = self.backend.update_url(url="http://www.example.com")
             self.assertEqual(resp, MOCK_RECACHE_RESPONSE)
+            self.assertEqual(headers, MOCK_RECACHE_HEADERS)
 
     def test_update_url_with_regex_only(self):
         with HTTMock(mock_prerender_recache_response):
-            resp = self.backend.update_url(regex="http://www.example.com/*")
+            resp, headers = self.backend.update_url(regex="http://www.example.com/*")
             self.assertEqual(resp, MOCK_RECACHE_RESPONSE)
+            self.assertEqual(headers, MOCK_RECACHE_HEADERS)
 
     def test_update_url_missing_url_and_regex(self):
         with HTTMock(mock_prerender_recache_response):

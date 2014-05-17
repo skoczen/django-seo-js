@@ -17,7 +17,7 @@ class PrerenderIO(SEOBackendBase):
         return settings.SEO_JS_PRERENDER_TOKEN
 
     def get_rendered_page(self, url):
-        """Accepts a fully-qualified url, returns the page body"""
+        """Accepts a fully-qualified url, returns the response body, and response headers, as a tuple."""
         if not url or not "//" in url:
             raise ValueError("Missing or invalid url: %s" % url)
         render_url = "%s%s" % (self.BASE_URL, url)
@@ -26,10 +26,12 @@ class PrerenderIO(SEOBackendBase):
             'Accept-Encoding': 'gzip',
         }
         r = requests.get(render_url, headers=headers)
-        assert r.status_code == 200
-        return r.content
+        assert int(r.status_code) < 500
+        return r.content, r.headers
 
     def update_url(self, url=None, regex=None):
+        """Accepts a fully-qualified url, or regex. 
+        Returns the response body, and response headers, as a tuple"""
         if not url and not regex:
             raise ValueError("Neither a url or regex was provided to update_url.")
 
@@ -47,8 +49,8 @@ class PrerenderIO(SEOBackendBase):
             data["regex"] = regex
             
         r = requests.post(self.RECACHE_URL, headers=headers, data=data)
-        assert r.status_code == 200
-        return r.content
+        assert int(r.status_code) < 500
+        return r.content, r.headers
 
 
 class PrerenderHosted(PrerenderIO):

@@ -6,7 +6,7 @@ class TestBackend(SEOBackendBase):
     """Implements a test backend"""
 
     def get_rendered_page(self, url):
-        return "Test"
+        return "Test", {"test rendered": "headers"}
 
     def update_url(self, url):
-        return "Test worked"
+        return "Test worked", {"test": "headers"}

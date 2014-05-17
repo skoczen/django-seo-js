@@ -150,6 +150,14 @@ Please add tests to any new functionality - you can run tests with `python manag
 # Releases
 
 
+
+### 0.2 - May 18, 2014
+
+* **Backwards incompatable** changes to `SEOBackendBase` - if you have custom backends, they'll need to change.  All included backends have been updated.
+* Returns pages that come back from the cache with anything besides a `5xx` status code.
+* Passes on headers, content type, and status code from the cache response.
+
+
 ### 0.1.3 - May 13, 2014
 
 * Adds a `SEO_JS_ENABLED` setting, so you can disable hooks and middlewares during tests.
