@@ -27,6 +27,7 @@ class PrerenderIO(SEOBackendBase):
         }
         r = requests.get(render_url, headers=headers)
         assert int(r.status_code) < 500
+        # TODO: just return r?
         return r.content, r.headers
 
     def update_url(self, url=None, regex=None):

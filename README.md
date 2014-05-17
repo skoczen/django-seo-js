@@ -172,7 +172,7 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 ### 0.2 - May 18, 2014
 
-* **Backwards incompatable** changes to `SEOBackendBase` - if you have custom backends, they'll need to change.  All included backends have been updated.
+* **Backwards incompatible** changes to `SEOBackendBase` - if you have custom backends, they'll need to change.  All included backends have been updated.
 * Returns pages that come back from the cache with anything besides a `5xx` status code.
 * Passes on headers, content type, and status code from the cache response.
 
