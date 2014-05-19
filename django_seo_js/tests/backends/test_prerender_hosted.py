@@ -1,7 +1,9 @@
-from mock import Mock
+import random
+import string
+
 from django.test import TestCase
 from django.test.utils import override_settings
-from httmock import all_requests, HTTMock, urlmatch
+from httmock import all_requests, HTTMock
 
 from django_seo_js.backends import PrerenderHosted
 
@@ -9,6 +11,7 @@ MOCK_RESPONSE = "<html><body><h1>Hello, World!</h1></body></html>"
 MOCK_RESPONSE_HEADERS = {"foo": "bar"}
 MOCK_RECACHE_RESPONSE = "OK"
 MOCK_RECACHE_HEADERS = {"ibbity": "ack"}
+MOCK_GIANT_RESPONSE = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(200000))
 
 
 @all_requests
@@ -26,6 +29,14 @@ def mock_prerender_response(url, request):
         'status_code': 200,
         'content': MOCK_RESPONSE,
         'headers': MOCK_RESPONSE_HEADERS,
+    }
+
+
+@all_requests
+def mock_prerender_giant_response(url, request):
+    return {
+        'status_code': 200,
+        'content': MOCK_GIANT_RESPONSE,
     }
 
 
@@ -69,6 +80,11 @@ class PrerenderHostedTestMethods(TestCase):
             self.assertEqual(MOCK_RESPONSE, resp.content)
             for k, v in MOCK_RESPONSE_HEADERS.items():
                 self.assertEqual(resp[k], v)
+
+    def test_get_response_for_giant_response(self):
+        with HTTMock(mock_prerender_giant_response):
+            resp = self.backend.get_response_for_url("http://www.example.com")
+            self.assertEqual(MOCK_GIANT_RESPONSE, resp.content)
 
     def test_update_url_with_url_only(self):
         with HTTMock(mock_prerender_recache_response):

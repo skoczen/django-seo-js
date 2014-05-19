@@ -47,5 +47,6 @@ class RequestsBasedBackend(object):
         r = HttpResponse(response.content)
         for k, v in response.headers.items():
             r[k] = v
+        r['Content-Length'] = len(response.content)
         r.status_code = response.status_code
         return r

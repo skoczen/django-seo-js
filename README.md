@@ -177,6 +177,9 @@ Please add tests to any new functionality - you can run tests with `python manag
 # Releases
 
 
+### 0.2.1 - May 19, 2014
+
+* Fixes a content-length bug.
 
 ### 0.2 - May 19, 2014
 
