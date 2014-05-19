@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 
 DEFAULT_BACKEND = "django_seo_js.backends.PrerenderIO"
-HOP_HEADERS = [
+IGNORED_HEADERS = [
     'connection', 'keep-alive', 'proxy-authenticate',
     'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
     'upgrade'
@@ -50,12 +50,11 @@ class RequestsBasedBackend(object):
 
     def build_django_response_from_requests_response(self, response):
         r = HttpResponse(response.content)
-        print r
-        print r, r.status_code
+        print r.status_code
         for k, v in response.headers.items():
             print "%s:%s" % (k, v)
-            if k not in HOP_HEADERS:
+            if k not in IGNORED_HEADERS:
                 r[k] = v
-        r['Content-Length'] = len(response.content)
+        r['content-length'] = len(response.content)
         r.status_code = response.status_code
         return r
