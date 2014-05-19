@@ -5,6 +5,11 @@ from django.http import HttpResponse
 
 
 DEFAULT_BACKEND = "django_seo_js.backends.PrerenderIO"
+HOP_HEADERS = [
+    'connection', 'keep-alive', 'proxy-authenticate',
+    'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
+    'upgrade'
+]
 
 
 class SelectedBackend(object):
@@ -44,16 +49,13 @@ class RequestsBasedBackend(object):
         self.requests = requests
 
     def build_django_response_from_requests_response(self, response):
-        from django.core.servers import basehttp
-
-        del basehttp._hop_headers['proxy-authenticate']
-        del basehttp._hop_headers['proxy-authorization']
         r = HttpResponse(response.content)
         print r
-        print r,status_code
+        print r, r.status_code
         for k, v in response.headers.items():
             print "%s:%s" % (k, v)
-            r[k] = v
+            if k not in HOP_HEADERS:
+                r[k] = v
         r['Content-Length'] = len(response.content)
         r.status_code = response.status_code
         return r
