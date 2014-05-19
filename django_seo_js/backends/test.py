@@ -1,12 +1,34 @@
-from django.conf import settings
 import requests
+
+from django.conf import settings
+from django.http import HttpResponse
+
 from base import SEOBackendBase
+
 
 class TestBackend(SEOBackendBase):
     """Implements a test backend"""
 
-    def get_rendered_page(self, url):
-        return "Test"
+    def get_response_for_url(self, url):
+        r = HttpResponse("Test")
+        r["test rendered"] = "headers"
+        r.status_code = 200
+        r.content_type = "text/html"
+        return r
 
     def update_url(self, url):
-        return "Test worked"
+        return True
+
+
+class TestServiceDownBackend(SEOBackendBase):
+    """Implements a test backend"""
+
+    def get_response_for_url(self, url):
+        r = HttpResponse("Service Down")
+        r["test rendered"] = "headers"
+        r.status_code = 503
+        r.content_type = "text/html"
+        assert r.status_code < 500
+
+    def update_url(self, url):
+        return False

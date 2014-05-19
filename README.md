@@ -128,6 +128,33 @@ SEO_JS_PRERENDER_URL = "http://my-prerenderapp.com"
 SEO_JS_PRERENDER_RECACHE_URL = "http://my-prerenderapp.com/recache"
 ```
 
+### Writing your own backend
+
+If it's a backend for a public service, please consider submitting your backend as a PR, so everyone can benefit!
+
+Backends must implement the following methods:
+
+```python
+
+class MyBackend(SEOBackendBase):
+
+    def get_response_for_url(self, url):
+        """
+        Accepts a fully-qualified url.
+        Returns an HttpResponse, passing through all headers and the status code.
+        """
+        raise NotImplementedError
+
+    def update_url(self, url):
+        """
+        Force an update of the cache for a particular URL.
+        Returns True on success, False on fail.
+        """
+        raise NotImplementedError
+```
+
+If you're hitting an http endpoint, there's also the helpful `RequestsBasedBackend`, which has a `build_django_response_from_requests_response` method that transforms a [python-requests](http://docs.python-requests.org/) response to a django `HttpResponse`, including headers, status codes, etc.
+
 
 ## How it all works
 
@@ -148,6 +175,15 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 
 # Releases
+
+
+
+### 0.2 - May 18, 2014
+
+* **Backwards incompatible** changes to `SEOBackendBase` - all backends are now expected to return an `HttpResponse` for their `get_response_for_url` methods. If you have custom backends, they'll need to be udpated.  All included backends have been updated.
+* Returns pages that come back from the cache with anything besides a `5xx` status code.
+* Passes on headers, content type, and status code from the cache response.
+* If the backend return a 5xx status, just returns the normal app and hopes for the best.
 
 
 ### 0.1.3 - May 13, 2014

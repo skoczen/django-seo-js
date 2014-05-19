@@ -1,7 +1,6 @@
 import re
 from django.conf import settings
 from django_seo_js.backends import SelectedBackend
-from django.http import HttpResponse
 
 DEFAULT_SEO_JS_USER_AGENTS = [
     "Googlebot",
@@ -10,6 +9,7 @@ DEFAULT_SEO_JS_USER_AGENTS = [
     "Badiu",
     "Ask Jeeves",
 ]
+
 
 class UserAgentMiddleware(SelectedBackend):
     def __init__(self, *args, **kwargs):
@@ -24,9 +24,15 @@ class UserAgentMiddleware(SelectedBackend):
 
     def process_request(self, request):
         # TODO: move to proper settings app pattern.
-        if (getattr(settings, "SEO_JS_ENABLED", not settings.DEBUG) and
+        if (
+            getattr(settings, "SEO_JS_ENABLED", not settings.DEBUG) and
             "HTTP_USER_AGENT" in request.META and
-            self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"])):
+            self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"])
+        ):
 
             url = request.build_absolute_uri()
-            return HttpResponse(self.backend.get_rendered_page(url))
+
+            try:
+                return self.backend.get_response_for_url(url)
+            except:
+                pass
