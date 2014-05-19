@@ -1,5 +1,7 @@
-from django.conf import settings
 import importlib
+import requests
+from django.conf import settings
+from django.http import HttpResponse
 
 
 DEFAULT_BACKEND = "django_seo_js.backends.PrerenderIO"
@@ -20,10 +22,27 @@ class SelectedBackend(object):
 class SEOBackendBase(object):
     """The base class to inherit for SEO_JS backends"""
 
-    def get_rendered_page(self, url):
-        """Accepts a fully-qualified url, returns the page body"""
+    def get_response_for_url(self, url):
+        """
+        Accepts a fully-qualified url.
+        Returns an HttpResponse, passing through all headers and the status code.
+        """
         raise NotImplementedError
 
     def update_url(self, url):
         """Force an update of the cache for a particular URL."""
         raise NotImplementedError
+
+
+class RequestsBasedBackend(object):
+
+    def __init__(self, *args, **kwargs):
+        super(RequestsBasedBackend, self).__init__(*args, **kwargs)
+        self.requests = requests
+
+    def build_django_response_from_requests_response(self, response):
+        r = HttpResponse(response.content)
+        for k, v in response.headers.items():
+            r[k] = v
+        r.status_code = response.status_code
+        return r

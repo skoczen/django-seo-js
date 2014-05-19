@@ -7,8 +7,8 @@ class SEOBackendBaseTest(TestCase):
     def setUp(self):
         self.backend = SEOBackendBase()
 
-    def test_get_rendered_page(self):
-        self.assertRaises(NotImplementedError, self.backend.get_rendered_page, "http://www.example.com")
+    def test_get_response_for_url(self):
+        self.assertRaises(NotImplementedError, self.backend.get_response_for_url, "http://www.example.com")
 
     def test_update_url(self):
         self.assertRaises(NotImplementedError, self.backend.update_url, "http://www.example.com")

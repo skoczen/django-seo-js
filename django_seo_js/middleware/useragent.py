@@ -1,7 +1,6 @@
 import re
 from django.conf import settings
 from django_seo_js.backends import SelectedBackend
-from django.http import HttpResponse
 
 DEFAULT_SEO_JS_USER_AGENTS = [
     "Googlebot",
@@ -10,31 +9,9 @@ DEFAULT_SEO_JS_USER_AGENTS = [
     "Badiu",
     "Ask Jeeves",
 ]
-# TODO Next steps:
-# 0. See questions below
-# 1. Pull this into its own file
-# 2. Write unit tests for it
-# 3. Make sure we have a clear abstraction and inheritance.
-# 4. document this, including the readme changes.
-
-class DjangoSeoJSMiddlewareHelpers(object):
-
-    def build_django_response_from_requests_response(self, response):
-        raise NotImplementedError
-        
-
-        # Should we have a RequestBasedBackend that handles this?
-        # All backends are expected to return None or HttpResponse?
-        # Think abou tthis with a fresh brain.
-        r = HttpResponse(content)
-        for k, v in r.headers.items():
-            r[k] = v
-        r.status_code = response.status_code
-        r.content_type = response.content_type
-        return r
 
 
-class UserAgentMiddleware(SelectedBackend, DjangoSeoJSMiddlewareHelpers):
+class UserAgentMiddleware(SelectedBackend):
     def __init__(self, *args, **kwargs):
         super(UserAgentMiddleware, self).__init__(*args, **kwargs)
         if getattr(settings, "SEO_JS_USER_AGENTS", None):
@@ -53,13 +30,7 @@ class UserAgentMiddleware(SelectedBackend, DjangoSeoJSMiddlewareHelpers):
 
             url = request.build_absolute_uri()
 
-            result = None
             try:
-                result = self.backend.get_rendered_page(url)
+                return self.backend.get_response_for_url(url)
             except:
                 pass
-
-            if self.valid_backend_result(result):
-                # Which calls
-                return self.build_django_response_from_requests_response(r)
-

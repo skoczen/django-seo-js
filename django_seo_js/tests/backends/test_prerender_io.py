@@ -48,27 +48,26 @@ class PrerenderIOTestMethods(TestCase):
     def setUp(self):
         self.backend = PrerenderIO()
 
-    def test_get_rendered_page_missing_url(self):
-        self.assertRaises(TypeError, self.backend.get_rendered_page)
-        self.assertRaises(ValueError, self.backend.get_rendered_page, None)
+    def test_get_response_for_url_missing_url(self):
+        self.assertRaises(TypeError, self.backend.get_response_for_url)
+        self.assertRaises(ValueError, self.backend.get_response_for_url, None)
 
-    def test_get_rendered_page_valid(self):
+    def test_get_response_for_url_valid(self):
         with HTTMock(mock_prerender_response):
-            resp, headers = self.backend.get_rendered_page("http://www.example.com")
-            self.assertEqual(MOCK_RESPONSE, resp)
-            self.assertEqual(MOCK_RESPONSE_HEADERS, headers)
+            resp = self.backend.get_response_for_url("http://www.example.com")
+            self.assertEqual(MOCK_RESPONSE, resp.content)
+            for k, v in MOCK_RESPONSE_HEADERS.items():
+                self.assertEqual(resp[k], v)
 
     def test_update_url_with_url_only(self):
         with HTTMock(mock_prerender_recache_response):
-            resp, headers = self.backend.update_url(url="http://www.example.com")
-            self.assertEqual(resp, MOCK_RECACHE_RESPONSE)
-            self.assertEqual(headers, MOCK_RECACHE_HEADERS)
+            resp = self.backend.update_url(url="http://www.example.com")
+            self.assertEqual(resp, True)
 
     def test_update_url_with_regex_only(self):
         with HTTMock(mock_prerender_recache_response):
-            resp, headers = self.backend.update_url(regex="http://www.example.com/*")
-            self.assertEqual(resp, MOCK_RECACHE_RESPONSE)
-            self.assertEqual(headers, MOCK_RECACHE_HEADERS)
+            resp = self.backend.update_url(regex="http://www.example.com/*")
+            self.assertEqual(resp, True)
 
     def test_update_url_missing_url_and_regex(self):
         with HTTMock(mock_prerender_recache_response):

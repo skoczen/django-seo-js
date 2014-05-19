@@ -138,7 +138,7 @@ Backends must implement the following methods:
 
 class MyBackend(SEOBackendBase):
 
-    def get_rendered_page(self, url):
+    def get_response_for_url(self, url):
         """Accepts a fully-qualified url, returns the page body"""
         raise NotImplementedError
 

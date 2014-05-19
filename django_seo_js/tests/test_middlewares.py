@@ -1,4 +1,5 @@
 from mock import Mock
+from django.conf import settings
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -28,14 +29,21 @@ class HashBangMiddlewareTest(TestCase):
      
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', DEBUG=True)
     def test_has_escaped_fragment_skips_if_disabled_via_debug(self):
+        self.middleware = HashBangMiddleware()
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
         
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', SEO_JS_ENABLED=False)
     def test_has_escaped_fragment_skips_if_disabled_via_enabled(self):
+        self.middleware = HashBangMiddleware()
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
-        
+    
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestServiceDownBackend')
+    def test_has_escaped_fragment_skips_if_service_is_down(self):
+        self.middleware = HashBangMiddleware()
+        self.request.GET = {"_escaped_fragment_": None}
+        self.assertEqual(self.middleware.process_request(self.request), None)
 
 
 class UserAgentMiddlewareTest(TestCase):
@@ -98,4 +106,11 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
         
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestServiceDownBackend')
+    def test_overriding_matches_skips_if_service_is_down(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.META = {
+            "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+        }
+        self.assertEqual(self.middleware.process_request(self.request), None)
 

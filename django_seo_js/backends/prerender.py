@@ -1,8 +1,7 @@
 from django.conf import settings
-import requests
-from base import SEOBackendBase
+from base import SEOBackendBase, RequestsBasedBackend
 
-class PrerenderIO(SEOBackendBase):
+class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
     """Implements the backend for prerender.io"""
     BASE_URL = "http://service.prerender.io/"
     RECACHE_URL = "http://api.prerender.io/recache"
@@ -16,8 +15,12 @@ class PrerenderIO(SEOBackendBase):
             raise ValueError("Missing SEO_JS_PRERENDER_TOKEN in settings.")
         return settings.SEO_JS_PRERENDER_TOKEN
 
-    def get_rendered_page(self, url):
-        """Accepts a fully-qualified url, returns the response body, and response headers, as a tuple."""
+    def get_response_for_url(self, url):
+        """
+        Accepts a fully-qualified url.
+        Returns an HttpResponse, passing through all headers and the status code.
+        """
+
         if not url or not "//" in url:
             raise ValueError("Missing or invalid url: %s" % url)
         render_url = "%s%s" % (self.BASE_URL, url)
@@ -25,14 +28,15 @@ class PrerenderIO(SEOBackendBase):
             'X-Prerender-Token': self.token,
             'Accept-Encoding': 'gzip',
         }
-        r = requests.get(render_url, headers=headers)
+        r = self.requests.get(render_url, headers=headers)
         assert int(r.status_code) < 500
-        # TODO: just return r?
-        return r.content, r.headers
+
+        return self.build_django_response_from_requests_response(r)
 
     def update_url(self, url=None, regex=None):
         """Accepts a fully-qualified url, or regex. 
-        Returns the response body, and response headers, as a tuple"""
+        Returns True if successful, False if not successful."""
+    
         if not url and not regex:
             raise ValueError("Neither a url or regex was provided to update_url.")
 
@@ -49,9 +53,8 @@ class PrerenderIO(SEOBackendBase):
         if regex:
             data["regex"] = regex
             
-        r = requests.post(self.RECACHE_URL, headers=headers, data=data)
-        assert int(r.status_code) < 500
-        return r.content, r.headers
+        r = self.requests.post(self.RECACHE_URL, headers=headers, data=data)
+        return int(r.status_code) < 500
 
 
 class PrerenderHosted(PrerenderIO):
