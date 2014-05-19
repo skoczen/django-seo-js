@@ -24,9 +24,11 @@ class UserAgentMiddleware(SelectedBackend):
 
     def process_request(self, request):
         # TODO: move to proper settings app pattern.
-        if (getattr(settings, "SEO_JS_ENABLED", not settings.DEBUG) and
+        if (
+            getattr(settings, "SEO_JS_ENABLED", not settings.DEBUG) and
             "HTTP_USER_AGENT" in request.META and
-            self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"])):
+            self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"])
+        ):
 
             url = request.build_absolute_uri()
 

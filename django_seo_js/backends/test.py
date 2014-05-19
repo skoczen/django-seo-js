@@ -19,6 +19,7 @@ class TestBackend(SEOBackendBase):
     def update_url(self, url):
         return True
 
+
 class TestServiceDownBackend(SEOBackendBase):
     """Implements a test backend"""
 

@@ -30,7 +30,10 @@ class SEOBackendBase(object):
         raise NotImplementedError
 
     def update_url(self, url):
-        """Force an update of the cache for a particular URL."""
+        """
+        Force an update of the cache for a particular URL.
+        Returns True on success, False on fail.
+        """
         raise NotImplementedError
 
 

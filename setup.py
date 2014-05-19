@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#! /usr/bin/env python
 import os
 from setuptools import setup, find_packages
 
@@ -17,25 +17,30 @@ with open("requirements.tests.txt", "r+") as f:
         test_reqs.append(line.strip())
 
 try:
-   import pypandoc
-   long_description = pypandoc.convert('README.md', 'rst')
+    import pypandoc
+    long_description = pypandoc.convert('README.md', 'rst')
 except (IOError, ImportError):
-    long_description = ''   
+    long_description = ''
 
 setup(
     name="django-seo-js",
-    description="SEO support for angular, backbone, and other js apps via django",
+    description="SEO support for angular, backbone, "
+                "and other js apps via django",
     long_description=long_description,
     author="Steven Skoczen",
     author_email="steven@greenkahuna.com",
     url="https://github.com/greenkahuna/django-seo-js",
     version=VERSION,
-    download_url = ['https://github.com/greenkahuna/django-seo-js/tarball/%s' % VERSION, ],
+    download_url=[
+        'https://github.com/greenkahuna/django-seo-js/tarball/%s'
+        % VERSION,
+    ],
     install_requires=reqs,
     tests_require=test_reqs,
     packages=find_packages(),
     include_package_data=True,
-    keywords = ["seo", "django", "ajax", "angular", "backbone", "ember", "famous", "google", "bing", "yahoo"],
+    keywords=["seo", "django", "ajax", "angular", "backbone",
+              "ember", "famous", "google", "bing", "yahoo"],
     classifiers=[
         "Programming Language :: Python",
         "License :: OSI Approved :: BSD License",

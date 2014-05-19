@@ -1,7 +1,6 @@
-from mock import Mock
 from django.test import TestCase
 from django.test.utils import override_settings
-from httmock import all_requests, HTTMock, urlmatch
+from httmock import all_requests, HTTMock
 
 from django_seo_js.backends import PrerenderIO
 
@@ -13,15 +12,16 @@ MOCK_RECACHE_HEADERS = {"ibbity": "ack"}
 
 @all_requests
 def mock_prerender_recache_response(url, request):
-    return { 
+    return {
         'status_code': 200,
         'content': MOCK_RECACHE_RESPONSE,
         'headers': MOCK_RECACHE_HEADERS,
     }
 
+
 @all_requests
 def mock_prerender_response(url, request):
-    return { 
+    return {
         'status_code': 200,
         'content': MOCK_RESPONSE,
         'headers': MOCK_RESPONSE_HEADERS,

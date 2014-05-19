@@ -13,15 +13,16 @@ MOCK_RECACHE_HEADERS = {"ibbity": "ack"}
 
 @all_requests
 def mock_prerender_recache_response(url, request):
-    return { 
+    return {
         'status_code': 200,
         'content': MOCK_RECACHE_RESPONSE,
         'headers': MOCK_RECACHE_HEADERS,
     }
 
+
 @all_requests
 def mock_prerender_response(url, request):
-    return { 
+    return {
         'status_code': 200,
         'content': MOCK_RESPONSE,
         'headers': MOCK_RESPONSE_HEADERS,
@@ -41,14 +42,20 @@ class PrerenderHostedTestURLs(TestCase):
     def test_init_throws_exception_if_both_urls_are_missing(self):
         self.assertRaises(ValueError, PrerenderHosted)
 
-    @override_settings(SEO_JS_PRERENDER_RECACHE_URL="http://example.com/recache", SEO_JS_PRERENDER_URL="http://example.com")
+    @override_settings(
+        SEO_JS_PRERENDER_RECACHE_URL="http://example.com/recache",
+        SEO_JS_PRERENDER_URL="http://example.com"
+    )
     def test_no_exception_if_both_are_provided(self):
         self.backend = PrerenderHosted()
 
 
 class PrerenderHostedTestMethods(TestCase):
 
-    @override_settings(SEO_JS_PRERENDER_RECACHE_URL="http://example.com/recache", SEO_JS_PRERENDER_URL="http://example.com")
+    @override_settings(
+        SEO_JS_PRERENDER_RECACHE_URL="http://example.com/recache",
+        SEO_JS_PRERENDER_URL="http://example.com"
+    )
     def setUp(self):
         self.backend = PrerenderHosted()
 

@@ -6,9 +6,9 @@ from django.test.utils import override_settings
 from django_seo_js.middleware import HashBangMiddleware, UserAgentMiddleware
 
 
-
 class BaseMiddlewareTest(TestCase):
     pass
+
 
 class HashBangMiddlewareTest(TestCase):
 
@@ -26,19 +26,19 @@ class HashBangMiddlewareTest(TestCase):
     def test_does_not_have_escaped_fragment(self):
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
-     
+
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', DEBUG=True)
     def test_has_escaped_fragment_skips_if_disabled_via_debug(self):
         self.middleware = HashBangMiddleware()
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
-        
+
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', SEO_JS_ENABLED=False)
     def test_has_escaped_fragment_skips_if_disabled_via_enabled(self):
         self.middleware = HashBangMiddleware()
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
-    
+
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestServiceDownBackend')
     def test_has_escaped_fragment_skips_if_service_is_down(self):
         self.middleware = HashBangMiddleware()
@@ -48,7 +48,6 @@ class HashBangMiddlewareTest(TestCase):
 
 class UserAgentMiddlewareTest(TestCase):
 
-    
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
     def setUp(self):
         super(UserAgentMiddlewareTest, self).setUp()
@@ -68,7 +67,10 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",], SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(
+        SEO_JS_USER_AGENTS=["TestUserAgent", ],
+        SEO_JS_BACKEND='django_seo_js.backends.TestBackend'
+    )
     def test_overriding_matches(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {
@@ -76,7 +78,10 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request).content, "Test")
 
-    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",], SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(
+        SEO_JS_USER_AGENTS=["TestUserAgent", ],
+        SEO_JS_BACKEND='django_seo_js.backends.TestBackend'
+    )
     def test_overriding_does_not_match_properly(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {
@@ -84,7 +89,10 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_USER_AGENTS=["TestUserAgent",], SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(
+        SEO_JS_USER_AGENTS=["TestUserAgent", ],
+        SEO_JS_BACKEND='django_seo_js.backends.TestBackend'
+    )
     def test_missing_user_agent_still_works(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {}
@@ -97,7 +105,7 @@ class UserAgentMiddlewareTest(TestCase):
             "HTTP_USER_AGENT": "The TestUserAgent v1.0"
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
-        
+
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', SEO_JS_ENABLED=False)
     def test_overriding_matches_skips_if_disabled_via_enabled(self):
         self.middleware = UserAgentMiddleware()
@@ -105,7 +113,7 @@ class UserAgentMiddlewareTest(TestCase):
             "HTTP_USER_AGENT": "The TestUserAgent v1.0"
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
-        
+
     @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestServiceDownBackend')
     def test_overriding_matches_skips_if_service_is_down(self):
         self.middleware = UserAgentMiddleware()
@@ -113,4 +121,3 @@ class UserAgentMiddlewareTest(TestCase):
             "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
-

@@ -1,6 +1,7 @@
 from django.conf import settings
 from base import SEOBackendBase, RequestsBasedBackend
 
+
 class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
     """Implements the backend for prerender.io"""
     BASE_URL = "http://service.prerender.io/"
@@ -21,7 +22,7 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
         Returns an HttpResponse, passing through all headers and the status code.
         """
 
-        if not url or not "//" in url:
+        if not url or "//" not in url:
             raise ValueError("Missing or invalid url: %s" % url)
         render_url = "%s%s" % (self.BASE_URL, url)
         headers = {
@@ -34,9 +35,11 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
         return self.build_django_response_from_requests_response(r)
 
     def update_url(self, url=None, regex=None):
-        """Accepts a fully-qualified url, or regex. 
-        Returns True if successful, False if not successful."""
-    
+        """
+        Accepts a fully-qualified url, or regex.
+        Returns True if successful, False if not successful.
+        """
+
         if not url and not regex:
             raise ValueError("Neither a url or regex was provided to update_url.")
 
@@ -52,7 +55,7 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
             data["url"] = url
         if regex:
             data["regex"] = regex
-            
+
         r = self.requests.post(self.RECACHE_URL, headers=headers, data=data)
         return int(r.status_code) < 500
 
@@ -60,7 +63,7 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
 class PrerenderHosted(PrerenderIO):
     """Implements the backend for an arbitrary prerender service
        specified in settings.SEO_JS_PRERENDER_URL"""
-    
+
     def __init__(self, *args, **kwargs):
         super(SEOBackendBase, self).__init__(*args, **kwargs)
         self.token = ""
@@ -74,4 +77,3 @@ class PrerenderHosted(PrerenderIO):
 
     def _get_token(self):
         pass
-
