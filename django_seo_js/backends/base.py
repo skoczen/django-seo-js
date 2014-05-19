@@ -54,6 +54,6 @@ class RequestsBasedBackend(object):
         for k, v in response.headers.items():
             print "%s:%s" % (k, v)
             r[k] = v
-        r['Content-Length'] = len(response. content)
+        r['Content-Length'] = len(response.content)
         r.status_code = response.status_code
         return r
