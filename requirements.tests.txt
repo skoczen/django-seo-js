@@ -1,4 +1,5 @@
 django
+httmock
 mock
 nose
-httmock
+pep8
