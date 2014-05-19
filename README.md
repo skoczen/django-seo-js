@@ -179,10 +179,6 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 ### 0.2.1 - May 19, 2014
 
-* Fixes a content-length bug.
-
-### 0.2 - May 19, 2014
-
 * **Backwards incompatible** changes to `SEOBackendBase` - all backends are now expected to return an `HttpResponse` for their `get_response_for_url` methods. If you have custom backends, they'll need to be updated.  All included backends have been updated, so if you're using an included backend, you can just pip install the new version, and go.
 * Returns pages that come back from the cache with anything besides a `5xx` status code.
 * Passes on headers, content type, and status code from the cache response.
