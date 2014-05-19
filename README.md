@@ -115,7 +115,7 @@ To use [prerender.io](http://prerender.io),
 SEO_JS_PRERENDER_TOKEN = "123456789abcdefghijkl"
 ```
 
-You don't need to set `SEO_JS_BACKEND`, since it defaults to `django_seo_js.backends.PrerenderIO`.
+You don't need to set `SEO_JS_BACKEND`, since it defaults to `"django_seo_js.backends.PrerenderIO"`.
 
 
 ### Custom-hosted prerender
@@ -153,7 +153,7 @@ class MyBackend(SEOBackendBase):
         raise NotImplementedError
 ```
 
-If you're hitting an http endpoint, there's also the helpful `RequestsBasedBackend`, which has a `build_django_response_from_requests_response` method that transforms a [python-requests](http://docs.python-requests.org/) response to a django `HttpResponse`, including headers, status codes, etc.
+If you're hitting an http endpoint, there's also the helpful `RequestsBasedBackend`, which has a `build_django_response_from_requests_response` method that transforms a [python-requests](http://docs.python-requests.org/) response to a django HttpResponse, including headers, status codes, etc.
 
 
 ## How it all works
@@ -178,12 +178,12 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 
 
-### 0.2 - May 18, 2014
+### 0.2 - May 19, 2014
 
-* **Backwards incompatible** changes to `SEOBackendBase` - all backends are now expected to return an `HttpResponse` for their `get_response_for_url` methods. If you have custom backends, they'll need to be udpated.  All included backends have been updated.
+* **Backwards incompatible** changes to `SEOBackendBase` - all backends are now expected to return an `HttpResponse` for their `get_response_for_url` methods. If you have custom backends, they'll need to be updated.  All included backends have been updated, so if you're using an included backend, you can just pip install the new version, and go.
 * Returns pages that come back from the cache with anything besides a `5xx` status code.
 * Passes on headers, content type, and status code from the cache response.
-* If the backend return a 5xx status, just returns the normal app and hopes for the best.
+* If the backend return a `5xx` status, just returns the normal app and hopes for the best.
 
 
 ### 0.1.3 - May 13, 2014
