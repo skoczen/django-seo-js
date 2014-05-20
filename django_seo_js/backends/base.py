@@ -8,7 +8,7 @@ DEFAULT_BACKEND = "django_seo_js.backends.PrerenderIO"
 IGNORED_HEADERS = [
     'connection', 'keep-alive', 'proxy-authenticate',
     'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
-    'upgrade'
+    'upgrade', 'content-length', 'content-encoding'
 ]
 
 
