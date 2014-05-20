@@ -30,7 +30,6 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
             'Accept-Encoding': 'gzip',
         }
         r = self.requests.get(render_url, headers=headers)
-        print r
         assert int(r.status_code) < 500
 
         return self.build_django_response_from_requests_response(r)

@@ -50,9 +50,7 @@ class RequestsBasedBackend(object):
 
     def build_django_response_from_requests_response(self, response):
         r = HttpResponse(response.content)
-        print r.status_code
         for k, v in response.headers.items():
-            print "%s:%s" % (k, v)
             if k not in IGNORED_HEADERS:
                 r[k] = v
         r['content-length'] = len(response.content)
