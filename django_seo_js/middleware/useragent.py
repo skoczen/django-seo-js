@@ -1,6 +1,8 @@
 import re
 from django.conf import settings
 from django_seo_js.backends import SelectedBackend
+from django_seo_js.helpers import request_should_be_ignored
+
 
 DEFAULT_SEO_JS_USER_AGENTS = [
     "Googlebot",
@@ -25,6 +27,7 @@ class UserAgentMiddleware(SelectedBackend):
     def process_request(self, request):
         # TODO: move to proper settings app pattern.
         if (
+            not request_should_be_ignored(request) and
             getattr(settings, "SEO_JS_ENABLED", not settings.DEBUG) and
             "HTTP_USER_AGENT" in request.META and
             self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"])

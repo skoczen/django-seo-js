@@ -17,6 +17,7 @@ class HashBangMiddlewareTest(TestCase):
         super(HashBangMiddlewareTest, self).setUp()
         self.middleware = HashBangMiddleware()
         self.request = Mock()
+        self.request.path = "/"
         self.request.GET = {}
 
     def test_has_escaped_fragment(self):
@@ -45,6 +46,29 @@ class HashBangMiddlewareTest(TestCase):
         self.request.GET = {"_escaped_fragment_": None}
         self.assertEqual(self.middleware.process_request(self.request), None)
 
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    def test_overriding_skips_sitemap_xml_by_default(self):
+        self.middleware = HashBangMiddleware()
+        self.request.path = "/sitemap.xml"
+        self.request.GET = {"_escaped_fragment_": None}
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(
+        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
+        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ]
+    )
+    def test_overriding_skips_custom_overrides_xml_by_default(self):
+        self.middleware = HashBangMiddleware()
+        self.request.path = "/sitemap.xml"
+        self.request.GET = {"_escaped_fragment_": None}
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = "/foo.html"
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+        self.request.path = "/bar/ibbity.html"
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
 
 class UserAgentMiddlewareTest(TestCase):
 
@@ -53,6 +77,7 @@ class UserAgentMiddlewareTest(TestCase):
         super(UserAgentMiddlewareTest, self).setUp()
         self.middleware = UserAgentMiddleware()
         self.request = Mock()
+        self.request.path = "/"
         self.request.META = {}
 
     def test_matches_one_of_the_default_user_agents(self):
@@ -120,4 +145,31 @@ class UserAgentMiddlewareTest(TestCase):
         self.request.META = {
             "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
         }
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    def test_overriding_skips_sitemap_xml_by_default(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.path = "/sitemap.xml"
+        self.request.META = {
+            "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+        }
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(
+        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
+        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ]
+    )
+    def test_overriding_skips_custom_overrides_xml_by_default(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.path = "/sitemap.xml"
+        self.request.META = {
+            "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+        }
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = "/foo.html"
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+        self.request.path = "/bar/ibbity.html"
         self.assertEqual(self.middleware.process_request(self.request), None)

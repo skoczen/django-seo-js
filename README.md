@@ -98,8 +98,13 @@ SEO_JS_USER_AGENTS = [
     "Badiu",
     "Ask Jeeves",
 ]
-```
 
+# Urls to skip the rendering backend, and always render in-app.
+# Defaults to excluding sitemap.xml.
+SEO_JS_IGNORE_URLS = [
+    "/sitemap.xml",
+]
+```
 
 
 ## Backend settings
@@ -176,6 +181,9 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 # Releases
 
+### 0.2.2 - May 22, 2014
+
+* Adds an optional `SEO_JS_IGNORE_URLS` setting, that contains a list of urls to ignore, thanks to the sitemap.xml prerender bug reported by [alex-mcleod](https://github.com/alex-mcleod).
 
 ### 0.2.1 - May 19, 2014
 
