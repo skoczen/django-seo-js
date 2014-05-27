@@ -129,7 +129,7 @@ If you're hosting your own instance of [prerender](https://github.com/prerender/
 
 ```python
 SEO_JS_BACKEND = "django_seo_js.backends.PrerenderHosted"
-SEO_JS_PRERENDER_URL = "http://my-prerenderapp.com"
+SEO_JS_PRERENDER_URL = "http://my-prerenderapp.com/"  # Note trailing slash.
 SEO_JS_PRERENDER_RECACHE_URL = "http://my-prerenderapp.com/recache"
 ```
 
