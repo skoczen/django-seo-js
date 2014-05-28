@@ -104,6 +104,11 @@ SEO_JS_USER_AGENTS = [
 SEO_JS_IGNORE_URLS = [
     "/sitemap.xml",
 ]
+SEO_JS_IGNORE_EXTENSIONS = [
+    ".xml",
+    ".txt",
+    # See helpers.py for full list of extensions ignored by default.
+]
 ```
 
 
@@ -180,6 +185,11 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 
 # Releases
+
+
+### 0.2.3 - May 28, 2014
+
+* Adds an optional `SEO_JS_IGNORE_EXTENSIONS` setting, that contains a list of extensions to ignore, thanks to the suggestion by [thoop](https://github.com/thoop).
 
 ### 0.2.2 - May 22, 2014
 

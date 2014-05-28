@@ -1,5 +1,4 @@
 from mock import Mock
-from django.conf import settings
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -55,7 +54,8 @@ class HashBangMiddlewareTest(TestCase):
 
     @override_settings(
         SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
-        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ]
+        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ],
+        SEO_JS_IGNORE_EXTENSIONS=[],
     )
     def test_overriding_skips_custom_overrides_xml_by_default(self):
         self.middleware = HashBangMiddleware()
@@ -67,6 +67,29 @@ class HashBangMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
         self.request.path = "/bar/ibbity.html"
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    def test_overriding_skips_gifs_by_default(self):
+        self.middleware = HashBangMiddleware()
+        self.request.path = "/sitemap.xml"
+        self.request.GET = {"_escaped_fragment_": None}
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(
+        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
+        SEO_JS_IGNORE_EXTENSIONS=[".html", ".txt", ]
+    )
+    def test_overriding_skips_custom_overrides_gifs_by_default(self):
+        self.middleware = HashBangMiddleware()
+        self.request.path = "/foo.gif"
+        self.request.GET = {"_escaped_fragment_": None}
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = "/foo.html"
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+        self.request.path = "/bar/ibbity.txt"
         self.assertEqual(self.middleware.process_request(self.request), None)
 
 
@@ -158,7 +181,8 @@ class UserAgentMiddlewareTest(TestCase):
 
     @override_settings(
         SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
-        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ]
+        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ],
+        SEO_JS_IGNORE_EXTENSIONS=[],
     )
     def test_overriding_skips_custom_overrides_xml_by_default(self):
         self.middleware = UserAgentMiddleware()
@@ -172,4 +196,31 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
         self.request.path = "/bar/ibbity.html"
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    def test_overriding_skips_gifs_by_default(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.path = "/foo.gif"
+        self.request.META = {
+            "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+        }
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+    @override_settings(
+        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
+        SEO_JS_IGNORE_EXTENSIONS=[".html", ".txt", ]
+    )
+    def test_overriding_skips_custom_overrides_gifs_by_default(self):
+        self.middleware = UserAgentMiddleware()
+        self.request.path = "/foo.gif"
+        self.request.META = {
+            "HTTP_USER_AGENT": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+        }
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = "/foo.html"
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+        self.request.path = "/bar/ibbity.txt"
         self.assertEqual(self.middleware.process_request(self.request), None)

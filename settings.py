@@ -28,11 +28,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-# ROOT_URLCONF = 'djproject.urls'
-
-# Python dotted path to the WSGI application used by Django's runserver.
-# WSGI_APPLICATION = 'djproject.wsgi.application'
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
