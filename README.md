@@ -189,7 +189,7 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 ### 0.2.3 - May 28, 2014
 
-* Adds an optional `SEO_JS_IGNORE_EXTENSIONS` setting, that contains a list of extensions to ignore, thanks to the suggestion by [thoop](https://github.com/thoop).
+* Adds an optional `SEO_JS_IGNORE_EXTENSIONS` setting that contains a list of extensions to ignore, thanks to the suggestion by [thoop](https://github.com/thoop).
 
 ### 0.2.2 - May 22, 2014
 
