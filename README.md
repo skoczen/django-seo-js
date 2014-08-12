@@ -187,6 +187,10 @@ Please add tests to any new functionality - you can run tests with `python manag
 # Releases
 
 
+### 0.2.4 - August 12, 2014
+
+* Adds a few more user agents to the defaults, per #7, and the suggestion of [andrewebdev](https://github.com/andrewebdev)
+
 ### 0.2.3 - May 28, 2014
 
 * Adds an optional `SEO_JS_IGNORE_EXTENSIONS` setting that contains a list of extensions to ignore, thanks to the suggestion by [thoop](https://github.com/thoop).

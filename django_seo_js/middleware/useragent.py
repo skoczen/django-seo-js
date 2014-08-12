@@ -8,8 +8,18 @@ DEFAULT_SEO_JS_USER_AGENTS = [
     "Googlebot",
     "Yahoo",
     "bingbot",
-    "Badiu",
     "Ask Jeeves",
+    "baiduspider",
+    "facebookexternalhit",
+    "twitterbot",
+    "rogerbot",
+    "linkedinbot",
+    "embedly",
+    "quoralink preview'",
+    "showyoubot",
+    "outbrain",
+    "pinterest",
+    "developersgoogle.com/+/web/snippet",
 ]
 
 
