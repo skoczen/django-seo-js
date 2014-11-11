@@ -77,3 +77,14 @@ class PrerenderHosted(PrerenderIO):
 
     def _get_token(self):
         pass
+
+    def update_url(self, url=None):
+        """
+        Accepts a fully-qualified url.
+        Returns True if successful, False if not successful.
+        """
+        if not url:
+            raise ValueError("Neither a url or regex was provided to update_url.")
+        post_url = "%s%s" % (self.BASE_URL, url)
+        r = self.requests.post(post_url)
+        return int(r.status_code) < 500
