@@ -2,9 +2,9 @@ import random
 import string
 
 from django.test import TestCase
-from django.test.utils import override_settings
 from httmock import all_requests, HTTMock
 
+from django_seo_js.tests.utils import override_settings
 from django_seo_js.backends import PrerenderHosted
 
 MOCK_RESPONSE = "<html><body><h1>Hello, World!</h1></body></html>"
@@ -42,11 +42,11 @@ def mock_prerender_giant_response(url, request):
 
 class PrerenderHostedTestURLs(TestCase):
 
-    @override_settings(SEO_JS_PRERENDER_RECACHE_URL="http://example.com")
+    @override_settings(PRERENDER_RECACHE_URL="http://example.com")
     def test_init_throws_exception_if_render_url_is_missing(self):
         self.assertRaises(ValueError, PrerenderHosted)
 
-    @override_settings(SEO_JS_PRERENDER_URL="http://example.com")
+    @override_settings(PRERENDER_URL="http://example.com")
     def test_init_throws_exception_if_recache_url_is_missing(self):
         self.assertRaises(ValueError, PrerenderHosted)
 
@@ -54,8 +54,8 @@ class PrerenderHostedTestURLs(TestCase):
         self.assertRaises(ValueError, PrerenderHosted)
 
     @override_settings(
-        SEO_JS_PRERENDER_RECACHE_URL="http://example.com/recache",
-        SEO_JS_PRERENDER_URL="http://example.com"
+        PRERENDER_RECACHE_URL="http://example.com/recache",
+        PRERENDER_URL="http://example.com"
     )
     def test_no_exception_if_both_are_provided(self):
         self.backend = PrerenderHosted()
@@ -64,8 +64,8 @@ class PrerenderHostedTestURLs(TestCase):
 class PrerenderHostedTestMethods(TestCase):
 
     @override_settings(
-        SEO_JS_PRERENDER_RECACHE_URL="http://example.com/recache",
-        SEO_JS_PRERENDER_URL="http://example.com"
+        PRERENDER_RECACHE_URL="http://example.com/recache",
+        PRERENDER_URL="http://example.com"
     )
     def setUp(self):
         self.backend = PrerenderHosted()

@@ -1,20 +1,20 @@
-from django.conf import settings
+from django_seo_js import settings
 from base import SEOBackendBase, RequestsBasedBackend
 
 
 class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
     """Implements the backend for prerender.io"""
-    BASE_URL = "http://service.prerender.io/"
-    RECACHE_URL = "http://api.prerender.io/recache"
+    BASE_URL = "https://service.prerender.io/"
+    RECACHE_URL = "https://api.prerender.io/recache"
 
     def __init__(self, *args, **kwargs):
         super(SEOBackendBase, self).__init__(*args, **kwargs)
         self.token = self._get_token()
 
     def _get_token(self):
-        if not getattr(settings, "SEO_JS_PRERENDER_TOKEN"):
+        if settings.PRERENDER_TOKEN is None:
             raise ValueError("Missing SEO_JS_PRERENDER_TOKEN in settings.")
-        return settings.SEO_JS_PRERENDER_TOKEN
+        return settings.PRERENDER_TOKEN
 
     def get_response_for_url(self, url):
         """
@@ -24,13 +24,13 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
 
         if not url or "//" not in url:
             raise ValueError("Missing or invalid url: %s" % url)
-        render_url = "%s%s" % (self.BASE_URL, url)
+
+        render_url = self.BASE_URL + url
         headers = {
             'X-Prerender-Token': self.token,
-            'Accept-Encoding': 'gzip',
         }
-        r = self.requests.get(render_url, headers=headers)
-        assert int(r.status_code) < 500
+        r = self.session.get(render_url, headers=headers)
+        assert r.status_code < 500
 
         return self.build_django_response_from_requests_response(r)
 
@@ -45,19 +45,18 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
 
         headers = {
             'X-Prerender-Token': self.token,
-            'Content-type': 'application/json',
-            'Accept-Encoding': 'gzip',
+            'Content-Type': 'application/json',
         }
         data = {
-            'prerenderToken': settings.SEO_JS_PRERENDER_TOKEN,
+            'prerenderToken': settings.PRERENDER_TOKEN,
         }
         if url:
             data["url"] = url
         if regex:
             data["regex"] = regex
 
-        r = self.requests.post(self.RECACHE_URL, headers=headers, data=data)
-        return int(r.status_code) < 500
+        r = self.session.post(self.RECACHE_URL, headers=headers, data=data)
+        return r.status_code < 500
 
 
 class PrerenderHosted(PrerenderIO):
@@ -67,13 +66,13 @@ class PrerenderHosted(PrerenderIO):
     def __init__(self, *args, **kwargs):
         super(SEOBackendBase, self).__init__(*args, **kwargs)
         self.token = ""
-        if not getattr(settings, "SEO_JS_PRERENDER_URL", None):
+        if not settings.PRERENDER_URL:
             raise ValueError("Missing SEO_JS_PRERENDER_URL in settings.")
-        if not getattr(settings, "SEO_JS_PRERENDER_RECACHE_URL", None):
+        if not settings.PRERENDER_RECACHE_URL:
             raise ValueError("Missing SEO_JS_PRERENDER_RECACHE_URL in settings.")
 
-        self.BASE_URL = getattr(settings, "SEO_JS_PRERENDER_URL")
-        self.RECACHE_URL = getattr(settings, "SEO_JS_PRERENDER_RECACHE_URL")
+        self.BASE_URL = settings.PRERENDER_URL
+        self.RECACHE_URL = settings.PRERENDER_RECACHE_URL
 
     def _get_token(self):
         pass
