@@ -1,10 +1,11 @@
 #! /usr/bin/env python
 import os
 from setuptools import setup, find_packages
+from django_seo_js import VERSION
 
 ROOT_DIR = os.path.dirname(__file__)
 SOURCE_DIR = os.path.join(ROOT_DIR)
-VERSION = "0.3.0"
+
 
 reqs = []
 with open("requirements.txt", "r+") as f:
