@@ -53,7 +53,7 @@ Quick-links:
     </head>
     ```
 
-4. **That's it!**  Your js-heavy pages are now rendered properly to the search engines. Have a lovely day.
+4. **That's it. :)**  Your js-heavy pages are now rendered properly to the search engines. Have a lovely day.
 
 Want more advanced control?  Keep reading.
 
@@ -209,11 +209,11 @@ This doesn't mean we don't have honest, spirited discussions about the direction
 
 django-seo-js was originally written and is maintained by [Steven Skoczen](https://stevenskoczen.com) while at GreenKahuna. Since then, it's been improved by lots of people, including (alphabetically):
 
-[alex-mcleod](https://github.com/alex-mcleod) brought you the idea of ignoring certain urls via `SEO_JS_IGNORE_URLS`.
-[andrewebdev](https://github.com/andrewebdev) improved the user-agent list to be more comprehensive.
-[denisvlr](https://github.com/denisvlr) fixed the `update_url` method.
-[mattrobenolt](https://github.com/mattrobenolt) mad things faster, better, and stronger.
-[thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
+- [alex-mcleod](https://github.com/alex-mcleod) brought you the idea of ignoring certain urls via `SEO_JS_IGNORE_URLS`.
+- [andrewebdev](https://github.com/andrewebdev) improved the user-agent list to be more comprehensive.
+- [denisvlr](https://github.com/denisvlr) fixed the `update_url` method.
+- [mattrobenolt](https://github.com/mattrobenolt) mad things faster, better, and stronger.
+- [thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
 
 
 # Releases
