@@ -14,8 +14,13 @@ Quick-links:
     - [Backend settings](#Backend-settings)
         - [Prerender.io](#Prerender-io)
         - [Custom-hosted prerender](#custom-hosted-prerender)
+- [Advanced Usage](#advanced-usage)
+    - [Updating the render cache](#updating-the-render-cache)
 - [How it all works](#how-it-all-works)
 - [Contributing](#contributing)
+    - [Code](#code)
+    - [Culture](#culture)
+- [Authors](#authors)
 - [Releases](#releases)
 
 
@@ -58,26 +63,6 @@ Quick-links:
 Want more advanced control?  Keep reading.
 
 
-# Updating the render cache
-
-If you know a page's contents have changed, some backends allow you to manually update the page cache.  `django-seo-js` provides helpers to make that easy.
-
-```python
-from django_seo_js.helpers import update_cache_for_url
-
-update_cache_for_url("/my-url")
-```
-
-So, for instance, you might want something like:
-
-```python
-def listing_changed(sender, instance, created, **kwargs):
-    update_cache_for_url("%s%s" % ("http://example.com/", reverse("listing_detail", instance.pk))
-
-post_save.connect(listing_changed, sender=Listing)
-```
-
-
 # Options
 
 ## General settings
@@ -113,7 +98,6 @@ SEO_JS_IGNORE_EXTENSIONS = [
     # See helpers.py for full list of extensions ignored by default.
 ]
 ```
-
 
 ## Backend settings
 
@@ -168,8 +152,29 @@ class MyBackend(SEOBackendBase):
 
 If you're hitting an http endpoint, there's also the helpful `RequestsBasedBackend`, which has a `build_django_response_from_requests_response` method that transforms a [python-requests](http://docs.python-requests.org/) response to a django HttpResponse, including headers, status codes, etc.
 
+# Advanced Usage
 
-## How it all works
+## Updating the render cache
+
+If you know a page's contents have changed, some backends allow you to manually update the page cache.  `django-seo-js` provides helpers to make that easy.
+
+```python
+from django_seo_js.helpers import update_cache_for_url
+
+update_cache_for_url("/my-url")
+```
+
+So, for instance, you might want something like:
+
+```python
+def listing_changed(sender, instance, created, **kwargs):
+    update_cache_for_url("%s%s" % ("http://example.com/", reverse("listing_detail", instance.pk))
+
+post_save.connect(listing_changed, sender=Listing)
+```
+
+
+# How it all works
 
 If you're looking for a big-picture explanation of how SEO for JS-heavy apps is handled, the clearest explanation I've seen is [this StackOverflow answer](http://stackoverflow.com/a/20766253).
 
@@ -194,7 +199,7 @@ Here's some guidelines on new code:
 
 ## Culture
 
-Anyone is welcome to contribute to django-seo-js, regardless of skill level or experience.  To make django-seo-js the best he can be, we have one big, overriding cultural principle:
+Anyone is welcome to contribute to django-seo-js, regardless of skill level or experience.  To make django-seo-js the best it can be, we have one big, overriding cultural principle:
 
 **Be kind.**
 
@@ -207,7 +212,7 @@ This doesn't mean we don't have honest, spirited discussions about the direction
 
 # Authors
 
-django-seo-js was originally written and is maintained by [Steven Skoczen](https://stevenskoczen.com) while at GreenKahuna. Since then, it's been improved by lots of people, including (alphabetically):
+django-seo-js was originally written and is maintained by [Steven Skoczen](https://stevenskoczen.com). Since then, it's been improved by lots of people, including (alphabetically):
 
 - [alex-mcleod](https://github.com/alex-mcleod) brought you the idea of ignoring certain urls via `SEO_JS_IGNORE_URLS`.
 - [andrewebdev](https://github.com/andrewebdev) improved the user-agent list to be more comprehensive.
@@ -215,6 +220,7 @@ django-seo-js was originally written and is maintained by [Steven Skoczen](https
 - [mattrobenolt](https://github.com/mattrobenolt) mad things faster, better, and stronger.
 - [thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
 
+Original development was at GreenKahuna (now defunct.)
 
 # Releases
 
