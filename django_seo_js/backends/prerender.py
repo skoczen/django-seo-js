@@ -85,5 +85,5 @@ class PrerenderHosted(PrerenderIO):
         if not url:
             raise ValueError("Neither a url or regex was provided to update_url.")
         post_url = "%s%s" % (self.BASE_URL, url)
-        r = self.requests.post(post_url)
+        r = self.session.post(post_url)
         return int(r.status_code) < 500
