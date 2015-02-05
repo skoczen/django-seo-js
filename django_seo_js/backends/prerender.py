@@ -29,7 +29,7 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
             'X-Prerender-Token': self.token,
             'Accept-Encoding': 'gzip',
         }
-        r = self.requests.get(render_url, headers=headers)
+        r = self.requests.get(render_url, headers=headers, allow_redirects=False)
         assert int(r.status_code) < 500
 
         return self.build_django_response_from_requests_response(r)

@@ -186,6 +186,11 @@ Please add tests to any new functionality - you can run tests with `python manag
 
 # Releases
 
+### 0.3.0 - Feb 5, 2015
+
+* Fixes to the `update_url` method, thanks to [denisvlr](https://github.com/denisvlr).
+* Optimizations in lookups, thanks to [mattrobenolt](https://github.com/mattrobenolt).
+* Changes behavior to more sanely not follow redirects, per [#9](https://github.com/skoczen/django-seo-js/issues/9), thanks to [denisvlr](https://github.com/denisvlr) and [mattrobenolt](https://github.com/mattrobenolt).
 
 ### 0.2.4 - August 12, 2014
 
