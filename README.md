@@ -21,39 +21,42 @@ Quick-links:
 
 # Installation
 
-Pip install:
+1. Pip install:
 
-```bash
-pip install django-seo-js
-```
+    ```bash
+    pip install django-seo-js
+    ```
 
 
-Add to your `settings.py`:
+2. Add to your `settings.py`:
 
-```python
-# If in doubt, just include both.  Details below.
-MIDDLEWARE_CLASSES = (
-    'django_seo_js.middleware.HashBangMiddleware',  # If you're using #!
-    'django_seo_js.middleware.UserAgentMiddleware',  # If you want to detect by user agent
-) + MIDDLEWARE_CLASSES
+    ```python
+    # If in doubt, just include both.  Details below.
+    MIDDLEWARE_CLASSES = (
+        'django_seo_js.middleware.HashBangMiddleware',  # If you're using #!
+        'django_seo_js.middleware.UserAgentMiddleware',  # If you want to detect by user agent
+    ) + MIDDLEWARE_CLASSES
 
-INSTALLED_APPS += ('django_seo_js',)
+    INSTALLED_APPS += ('django_seo_js',)
 
-# If you're using prerender.io (the default backend):
-SEO_JS_PRERENDER_TOKEN = "123456789abcdefghijkl"
-```
+    # If you're using prerender.io (the default backend):
+    SEO_JS_PRERENDER_TOKEN = "123456789abcdefghijkl"
+    ```
 
-Add this to your `base.html`
+3. Add to your `base.html`
 
-```twig
-{% load django_seo_js %}
-<head>
-    {% seo_js_head %}
-    ...
-</head>
-```
+    ```twig
+    {% load django_seo_js %}
+    <head>
+        {% seo_js_head %}
+        ...
+    </head>
+    ```
 
-That's it!  Your js-heavy pages are now rendered properly to the search engines. Have a lovely day.
+4. **That's it!**  Your js-heavy pages are now rendered properly to the search engines. Have a lovely day.
+
+Want more advanced control?  Keep reading.
+
 
 # Updating the render cache
 
