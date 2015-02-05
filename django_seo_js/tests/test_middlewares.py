@@ -1,8 +1,10 @@
 from mock import Mock
 from django.test import TestCase
-from django.test.utils import override_settings
 
+from django_seo_js.tests.utils import override_settings
 from django_seo_js.middleware import HashBangMiddleware, UserAgentMiddleware
+
+print override_settings
 
 
 class BaseMiddlewareTest(TestCase):
@@ -11,7 +13,7 @@ class BaseMiddlewareTest(TestCase):
 
 class HashBangMiddlewareTest(TestCase):
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def setUp(self):
         super(HashBangMiddlewareTest, self).setUp()
         self.middleware = HashBangMiddleware()
@@ -27,25 +29,19 @@ class HashBangMiddlewareTest(TestCase):
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', DEBUG=True)
-    def test_has_escaped_fragment_skips_if_disabled_via_debug(self):
-        self.middleware = HashBangMiddleware()
-        self.request.GET = {}
-        self.assertEqual(self.middleware.process_request(self.request), None)
-
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', SEO_JS_ENABLED=False)
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend', ENABLED=False)
     def test_has_escaped_fragment_skips_if_disabled_via_enabled(self):
         self.middleware = HashBangMiddleware()
         self.request.GET = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestServiceDownBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestServiceDownBackend')
     def test_has_escaped_fragment_skips_if_service_is_down(self):
         self.middleware = HashBangMiddleware()
         self.request.GET = {"_escaped_fragment_": None}
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_skips_sitemap_xml_by_default(self):
         self.middleware = HashBangMiddleware()
         self.request.path = "/sitemap.xml"
@@ -53,9 +49,9 @@ class HashBangMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
     @override_settings(
-        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
-        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ],
-        SEO_JS_IGNORE_EXTENSIONS=[],
+        BACKEND='django_seo_js.backends.TestBackend',
+        IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ],
+        IGNORE_EXTENSIONS=[],
     )
     def test_overriding_skips_custom_overrides_xml_by_default(self):
         self.middleware = HashBangMiddleware()
@@ -69,7 +65,7 @@ class HashBangMiddlewareTest(TestCase):
         self.request.path = "/bar/ibbity.html"
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_skips_gifs_by_default(self):
         self.middleware = HashBangMiddleware()
         self.request.path = "/sitemap.xml"
@@ -77,8 +73,8 @@ class HashBangMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
     @override_settings(
-        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
-        SEO_JS_IGNORE_EXTENSIONS=[".html", ".txt", ]
+        BACKEND='django_seo_js.backends.TestBackend',
+        IGNORE_EXTENSIONS=[".html", ".txt", ]
     )
     def test_overriding_skips_custom_overrides_gifs_by_default(self):
         self.middleware = HashBangMiddleware()
@@ -95,7 +91,7 @@ class HashBangMiddlewareTest(TestCase):
 
 class UserAgentMiddlewareTest(TestCase):
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def setUp(self):
         super(UserAgentMiddlewareTest, self).setUp()
         self.middleware = UserAgentMiddleware()
@@ -116,8 +112,8 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
     @override_settings(
-        SEO_JS_USER_AGENTS=["TestUserAgent", ],
-        SEO_JS_BACKEND='django_seo_js.backends.TestBackend'
+        USER_AGENTS=["TestUserAgent", ],
+        BACKEND='django_seo_js.backends.TestBackend'
     )
     def test_overriding_matches(self):
         self.middleware = UserAgentMiddleware()
@@ -127,8 +123,8 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request).content, "Test")
 
     @override_settings(
-        SEO_JS_USER_AGENTS=["TestUserAgent", ],
-        SEO_JS_BACKEND='django_seo_js.backends.TestBackend'
+        USER_AGENTS=["TestUserAgent", ],
+        BACKEND='django_seo_js.backends.TestBackend'
     )
     def test_overriding_does_not_match_properly(self):
         self.middleware = UserAgentMiddleware()
@@ -138,23 +134,15 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
     @override_settings(
-        SEO_JS_USER_AGENTS=["TestUserAgent", ],
-        SEO_JS_BACKEND='django_seo_js.backends.TestBackend'
+        USER_AGENTS=["TestUserAgent", ],
+        BACKEND='django_seo_js.backends.TestBackend'
     )
     def test_missing_user_agent_still_works(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {}
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', DEBUG=True)
-    def test_overriding_matches_skips_if_disabled_via_debug(self):
-        self.middleware = UserAgentMiddleware()
-        self.request.META = {
-            "HTTP_USER_AGENT": "The TestUserAgent v1.0"
-        }
-        self.assertEqual(self.middleware.process_request(self.request), None)
-
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend', SEO_JS_ENABLED=False)
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend', ENABLED=False)
     def test_overriding_matches_skips_if_disabled_via_enabled(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {
@@ -162,7 +150,7 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestServiceDownBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestServiceDownBackend')
     def test_overriding_matches_skips_if_service_is_down(self):
         self.middleware = UserAgentMiddleware()
         self.request.META = {
@@ -170,7 +158,7 @@ class UserAgentMiddlewareTest(TestCase):
         }
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_skips_sitemap_xml_by_default(self):
         self.middleware = UserAgentMiddleware()
         self.request.path = "/sitemap.xml"
@@ -180,9 +168,9 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
     @override_settings(
-        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
-        SEO_JS_IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ],
-        SEO_JS_IGNORE_EXTENSIONS=[],
+        BACKEND='django_seo_js.backends.TestBackend',
+        IGNORE_URLS=["/foo.html", "/bar/ibbity.html", ],
+        IGNORE_EXTENSIONS=[],
     )
     def test_overriding_skips_custom_overrides_xml_by_default(self):
         self.middleware = UserAgentMiddleware()
@@ -198,7 +186,7 @@ class UserAgentMiddlewareTest(TestCase):
         self.request.path = "/bar/ibbity.html"
         self.assertEqual(self.middleware.process_request(self.request), None)
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def test_overriding_skips_gifs_by_default(self):
         self.middleware = UserAgentMiddleware()
         self.request.path = "/foo.gif"
@@ -208,8 +196,8 @@ class UserAgentMiddlewareTest(TestCase):
         self.assertEqual(self.middleware.process_request(self.request), None)
 
     @override_settings(
-        SEO_JS_BACKEND='django_seo_js.backends.TestBackend',
-        SEO_JS_IGNORE_EXTENSIONS=[".html", ".txt", ]
+        BACKEND='django_seo_js.backends.TestBackend',
+        IGNORE_EXTENSIONS=[".html", ".txt", ]
     )
     def test_overriding_skips_custom_overrides_gifs_by_default(self):
         self.middleware = UserAgentMiddleware()

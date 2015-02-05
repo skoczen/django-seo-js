@@ -1,25 +1,20 @@
 import importlib
 import requests
-from django.conf import settings
 from django.http import HttpResponse
+from django_seo_js import settings
 
 
-DEFAULT_BACKEND = "django_seo_js.backends.PrerenderIO"
-IGNORED_HEADERS = [
+IGNORED_HEADERS = frozenset((
     'connection', 'keep-alive', 'proxy-authenticate',
     'proxy-authorization', 'te', 'trailers', 'transfer-encoding',
     'upgrade', 'content-length', 'content-encoding'
-]
+))
 
 
 class SelectedBackend(object):
 
     def __init__(self, *args, **kwargs):
-        if getattr(settings, "SEO_JS_BACKEND", None):
-            module_path = getattr(settings, "SEO_JS_BACKEND")
-        else:
-            module_path = DEFAULT_BACKEND
-
+        module_path = settings.BACKEND
         backend_module = importlib.import_module(".".join(module_path.split(".")[:-1]))
         self.backend = getattr(backend_module, module_path.split(".")[-1])()
 
@@ -46,7 +41,7 @@ class RequestsBasedBackend(object):
 
     def __init__(self, *args, **kwargs):
         super(RequestsBasedBackend, self).__init__(*args, **kwargs)
-        self.requests = requests
+        self.session = requests.Session()
 
     def build_django_response_from_requests_response(self, response):
         r = HttpResponse(response.content)

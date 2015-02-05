@@ -1,6 +1,6 @@
 from django.test import TestCase
-from django.test.utils import override_settings
 
+from django_seo_js.tests.utils import override_settings
 from django_seo_js.backends import PrerenderIO, SelectedBackend, SEOBackendBase, TestBackend
 
 
@@ -21,7 +21,7 @@ class SelectedBackendTest(TestCase):
         s = SelectedBackend()
         self.assertTrue(isinstance(s.backend, PrerenderIO))
 
-    @override_settings(SEO_JS_BACKEND='django_seo_js.backends.TestBackend')
+    @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def test_override_backend(self):
         s = SelectedBackend()
         self.assertTrue(isinstance(s.backend, TestBackend))
