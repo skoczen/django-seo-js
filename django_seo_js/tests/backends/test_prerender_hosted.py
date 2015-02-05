@@ -86,16 +86,11 @@ class PrerenderHostedTestMethods(TestCase):
             resp = self.backend.get_response_for_url("http://www.example.com")
             self.assertEqual(MOCK_GIANT_RESPONSE, resp.content)
 
-    def test_update_url_with_url_only(self):
+    def test_update_url_with_url(self):
         with HTTMock(mock_prerender_recache_response):
             resp = self.backend.update_url(url="http://www.example.com")
             self.assertEqual(resp, True)
 
-    def test_update_url_with_regex_only(self):
-        with HTTMock(mock_prerender_recache_response):
-            resp = self.backend.update_url(regex="http://www.example.com/*")
-            self.assertEqual(resp, True)
-
-    def test_update_url_missing_url_and_regex(self):
+    def test_update_url_missing_url(self):
         with HTTMock(mock_prerender_recache_response):
             self.assertRaises(ValueError, self.backend.update_url)
