@@ -179,9 +179,38 @@ If even that's TL;DR for you, here's a bullet-point summary:
 
 # Contributing
 
+## Code
+
 PRs with additional backends, bug-fixes, documentation and more are definitely welcome! 
 
-Please add tests to any new functionality - you can run tests with `python manage.py test`
+Here's some guidelines on new code:
+- Incoming code should follow PEP8 (there's a test to help out on this.)
+- If you add new core-level features, write some quick docs in the README.  If you're not sure if they're needed, just ask!
+- Add your name and attribution to the AUTHORS file.
+- Know you have everyone's thanks for helping to make django-seo-js even better!
+
+## Culture
+
+Anyone is welcome to contribute to django-seo-js, regardless of skill level or experience.  To make django-seo-js the best he can be, we have one big, overriding cultural principle:
+
+**Be kind.**
+
+Simple.  Easy, right?
+
+We've all been newbie coders, we've all had bad days, we've all been frustrated with libraries, we've all spoken a language we learned later in life.  In discussions with other coders, PRs, and CRs, we just give each the benefit of the doubt, listen well, and assume best intentions.  It's worked out fantastically.
+
+This doesn't mean we don't have honest, spirited discussions about the direction to move django-seo-js forward, or how to implement a feature.  We do.  We just respect one other while we do it.  Not so bad, right? :)
+
+
+# Authors
+
+django-seo-js was originally written and is maintained by [Steven Skoczen](https://stevenskoczen.com) while at GreenKahuna. Since then, it's been improved by lots of people, including (alphabetically):
+
+[alex-mcleod](https://github.com/alex-mcleod) brought you the idea of ignoring certain urls via `SEO_JS_IGNORE_URLS`.
+[andrewebdev](https://github.com/andrewebdev) improved the user-agent list to be more comprehensive.
+[denisvlr](https://github.com/denisvlr) fixed the `update_url` method.
+[mattrobenolt](https://github.com/mattrobenolt) mad things faster, better, and stronger.
+[thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
 
 
 # Releases
