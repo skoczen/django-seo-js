@@ -8,15 +8,15 @@ django-seo-js is a drop-in app that provides full SEO support for angular, backb
 It's simple to set up, configurable to use multiple services, and easy to customize.
 
 Quick-links:
-- [Installation](README.md#installation)
-- [Options](README.md#options)
-    - [General Settings](README.md#General-Settings)
-    - [Backend settings](README.md#Backend-settings)
-        - [Prerender.io](README.md#Prerender-io)
-        - [Custom-hosted prerender](README.md#custom-hosted-prerender)
-- [How it all works](README.md#how-it-all-works)
-- [Contributing](README.md#contributing)
-- [Releases](README.md#releases)
+- [Installation](#installation)
+- [Options](#options)
+    - [General Settings](#General-Settings)
+    - [Backend settings](#Backend-settings)
+        - [Prerender.io](#Prerender-io)
+        - [Custom-hosted prerender](#custom-hosted-prerender)
+- [How it all works](#how-it-all-works)
+- [Contributing](#contributing)
+- [Releases](#releases)
 
 
 # Installation
@@ -40,7 +40,7 @@ Quick-links:
     INSTALLED_APPS += ('django_seo_js',)
 
     # If you're using prerender.io (the default backend):
-    SEO_JS_PRERENDER_TOKEN = "123456789abcdefghijkl"
+    SEO_JS_PRERENDER_TOKEN = "123456789abcdefghijkl"  # Really, put this in your env, not your codebase.
     ```
 
 3. Add to your `base.html`
