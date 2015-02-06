@@ -27,7 +27,7 @@ class UserAgentMiddleware(SelectedBackend):
         if not self.USER_AGENT_REGEX.match(request.META["HTTP_USER_AGENT"]):
             return
 
-        url = request.build_absolute_uri()
+        url = self.backend.build_absolute_uri()
         try:
             return self.backend.get_response_for_url(url)
         except Exception as e:

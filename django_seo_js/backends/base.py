@@ -22,6 +22,23 @@ class SelectedBackend(object):
 class SEOBackendBase(object):
     """The base class to inherit for SEO_JS backends"""
 
+    def build_absolute_uri(self, request):
+        """
+        Return the fully-qualified url that will be pre-rendered.
+
+        Override to customize how your URIs are built.
+
+        e.g. to strip out all query params:
+        ```
+        return '{scheme}://{host}{path}'.format(
+            scheme=self.scheme,
+            host=self.get_host(),
+            path=self.path,
+        )
+        ```
+        """
+        return request.build_absolute_uri()
+
     def get_response_for_url(self, url):
         """
         Accepts a fully-qualified url.

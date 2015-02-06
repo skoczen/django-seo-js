@@ -173,6 +173,21 @@ def listing_changed(sender, instance, created, **kwargs):
 post_save.connect(listing_changed, sender=Listing)
 ```
 
+## Building your own URLs for prerendering
+
+If you need to customize the fully-qualified URL, you can subclass any backend and override the `build_absolute_uri()` method.
+
+```python
+class MyBackend(SEOBackendBase):
+    def build_absolute_uri(self, request):
+        """Strip out all query params:"""
+        return '{scheme}://{host}{path}'.format(
+            scheme=self.scheme,
+            host=self.get_host(),
+            path=self.path,
+        )
+```
+
 
 # How it all works
 
