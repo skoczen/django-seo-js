@@ -17,7 +17,7 @@ class HashBangMiddleware(SelectedBackend):
         if "_escaped_fragment_" not in request.GET:
             return
 
-        url = request.build_absolute_uri()
+        url = self.backend.build_absolute_uri(request)
         try:
             return self.backend.get_response_for_url(url)
         except Exception as e:
