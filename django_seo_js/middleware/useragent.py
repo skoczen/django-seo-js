@@ -15,7 +15,7 @@ class UserAgentMiddleware(SelectedBackend):
         self.USER_AGENT_REGEX = re.compile(regex_str, re.IGNORECASE)
 
     def process_request(self, request):
-        if not request.ENABLED:
+        if not settings.ENABLED:
             return
 
         if request_should_be_ignored(request):
