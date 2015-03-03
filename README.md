@@ -231,13 +231,22 @@ django-seo-js was originally written and is maintained by [Steven Skoczen](https
 
 - [alex-mcleod](https://github.com/alex-mcleod) brought you the idea of ignoring certain urls via `SEO_JS_IGNORE_URLS`.
 - [andrewebdev](https://github.com/andrewebdev) improved the user-agent list to be more comprehensive.
+- [chazcb](https://github.com/chazcb) added the `build_absolute_uri` method, for subclassing in complex, generated setups.
 - [denisvlr](https://github.com/denisvlr) fixed the `update_url` method.
 - [mattrobenolt](https://github.com/mattrobenolt) mad things faster, better, and stronger.
+- [rchrd2](https://github.com/rchrd2) fixed a breaking bug with the user agent middleware.
 - [thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
 
 Original development was at GreenKahuna (now defunct.)
 
 # Releases
+
+
+### 0.3.1 - March 3, 2015
+
+* Bugfix to user agent middleware not respecting `ENABLED`, thanks to [rchrd2](https://github.com/rchrd2).
+* New (backwards-compatible) `build_absolute_uri` method that can be overridden, thanks to [chazcb](https://github.com/chazcb).
+* Removed Google, Yahoo, and Bing from the default `USER_AGENTS`, since they now support the escaped fragment protocol (and leaving them in can cause a cloaking penalty.)  Thanks to [thoop](https://github.com/thoop) for pointing this out.
 
 ### 0.3.0 - Feb 5, 2015
 
