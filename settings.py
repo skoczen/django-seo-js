@@ -20,7 +20,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django_seo_js.middleware.HashBangMiddleware',
+    'django_seo_js.middleware.EscapedFragmentMiddleware',
     'django_seo_js.middleware.UserAgentMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

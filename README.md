@@ -38,7 +38,7 @@ Quick-links:
     ```python
     # If in doubt, just include both.  Details below.
     MIDDLEWARE_CLASSES = (
-        'django_seo_js.middleware.HashBangMiddleware',  # If you're using #!
+        'django_seo_js.middleware.EscapedFragmentMiddleware',  # If you're using #!
         'django_seo_js.middleware.UserAgentMiddleware',  # If you want to detect by user agent
     ) + MIDDLEWARE_CLASSES
 
@@ -244,7 +244,8 @@ Original development was at GreenKahuna (now defunct.)
 
 ### 0.3.1 - March 3, 2015
 
-* Bugfix to user agent middleware not respecting `ENABLED`, thanks to [rchrd2](https://github.com/rchrd2).
+* **Deprecation**: `django_seo_js.middleware.HashBangMiddleware` is now called `django_seo_js.middleware.EscapedFragmentMiddleware`, to fix confusion.  `HashBangMiddleware` will be removed in 0.5.  Which I would bet is probably late 2015, early 2016.  You'll see a log warning from now on.  Thanks to [thoop](https://github.com/thoop) for the report.
+* Bugfix to user agent middleware not respecting `ENABLED`, thanks to [rchrd2](https://github.com/rchrd2). Also reported by [denisvlr](https://github.com/denisvlr).
 * New (backwards-compatible) `build_absolute_uri` method that can be overridden, thanks to [chazcb](https://github.com/chazcb).
 * Removed Google, Yahoo, and Bing from the default `USER_AGENTS`, since they now support the escaped fragment protocol (and leaving them in can cause a cloaking penalty.)  Thanks to [thoop](https://github.com/thoop) for pointing this out.
 
