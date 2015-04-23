@@ -117,7 +117,7 @@ You don't need to set `SEO_JS_BACKEND`, since it defaults to `"django_seo_js.bac
 
 ### Custom-hosted prerender
 
-If you're hosting your own instance of [prerender](https://github.com/prerender/prerender), configuration is similar
+If you're hosting your own instance of [prerender](https://github.com/prerender/prerender), (there are [docker imagess](https://github.com/cerisier/docker-prerender/), for those inclined,) configuration is similar
 
 ```python
 SEO_JS_BACKEND = "django_seo_js.backends.PrerenderHosted"
