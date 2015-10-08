@@ -45,7 +45,7 @@ class SEOBackendBase(MiddlewareMixin):
         """
         return request.build_absolute_uri()
 
-    def get_response_for_url(self, url):
+    def get_response_for_url(self, url, request=None):
         """
         Accepts a fully-qualified url.
         Returns an HttpResponse, passing through all headers and the status code.
