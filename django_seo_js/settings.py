@@ -71,3 +71,5 @@ BACKEND = getattr(django_settings, 'SEO_JS_BACKEND', 'django_seo_js.backends.Pre
 PRERENDER_TOKEN = getattr(django_settings, 'SEO_JS_PRERENDER_TOKEN', None)
 PRERENDER_URL = getattr(django_settings, 'SEO_JS_PRERENDER_URL', None)
 PRERENDER_RECACHE_URL = getattr(django_settings, 'SEO_JS_PRERENDER_RECACHE_URL', None)
+
+SEND_USER_AGENT = getattr(django_settings, 'SEO_JS_SEND_USER_AGENT', True)

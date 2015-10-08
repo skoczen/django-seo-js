@@ -19,7 +19,7 @@ class EscapedFragmentMiddleware(SelectedBackend):
 
         url = self.backend.build_absolute_uri(request)
         try:
-            return self.backend.get_response_for_url(url)
+            return self.backend.get_response_for_url(url, request)
         except Exception as e:
             logger.exception(e)
 
