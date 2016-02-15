@@ -110,6 +110,9 @@ To use [prerender.io](http://prerender.io),
 ```python
 # Prerender.io token
 SEO_JS_PRERENDER_TOKEN = "123456789abcdefghijkl"
+
+# Optional timeout option (following requests timeout format)
+SEO_JS_PRERENDER_TIMEOUT = (5,5)
 ```
 
 You don't need to set `SEO_JS_BACKEND`, since it defaults to `"django_seo_js.backends.PrerenderIO"`.

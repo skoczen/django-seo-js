@@ -69,5 +69,6 @@ USER_AGENTS = frozenset(getattr(django_settings, 'SEO_JS_USER_AGENTS', (
 BACKEND = getattr(django_settings, 'SEO_JS_BACKEND', 'django_seo_js.backends.PrerenderIO')
 
 PRERENDER_TOKEN = getattr(django_settings, 'SEO_JS_PRERENDER_TOKEN', None)
+PRERENDER_TIMEOUT = getattr(django_settings, 'SEO_JS_PRERENDER_TIMEOUT', False)
 PRERENDER_URL = getattr(django_settings, 'SEO_JS_PRERENDER_URL', None)
 PRERENDER_RECACHE_URL = getattr(django_settings, 'SEO_JS_PRERENDER_RECACHE_URL', None)

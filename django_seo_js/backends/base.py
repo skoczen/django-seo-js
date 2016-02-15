@@ -68,3 +68,8 @@ class RequestsBasedBackend(object):
         r['content-length'] = len(response.content)
         r.status_code = response.status_code
         return r
+
+    def build_request_timeout_response(self):
+        r = HttpResponse()
+        r.status_code = 408
+        return r

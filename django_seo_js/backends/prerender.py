@@ -1,5 +1,6 @@
 from django_seo_js import settings
 from base import SEOBackendBase, RequestsBasedBackend
+import requests
 
 
 class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
@@ -16,6 +17,11 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
             raise ValueError("Missing SEO_JS_PRERENDER_TOKEN in settings.")
         return settings.PRERENDER_TOKEN
 
+    def _request_kwargs(self, kwargs):
+        if settings.PRERENDER_TIMEOUT is not False:
+            kwargs['timeout'] = settings.PRERENDER_TIMEOUT
+        return kwargs
+
     def get_response_for_url(self, url):
         """
         Accepts a fully-qualified url.
@@ -29,10 +35,17 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
         headers = {
             'X-Prerender-Token': self.token,
         }
-        r = self.session.get(render_url, headers=headers, allow_redirects=False)
-        assert r.status_code < 500
+        get_options = {
+            'headers': headers,
+            'allow_redirects': False
+        }
 
-        return self.build_django_response_from_requests_response(r)
+        try:
+            r = self.session.get(render_url, **self._request_kwargs(get_options))
+            assert r.status_code < 500
+            return self.build_django_response_from_requests_response(r)
+        except requests.exceptions.Timeout:
+            return self.build_request_timeout_response()
 
     def update_url(self, url=None, regex=None):
         """
