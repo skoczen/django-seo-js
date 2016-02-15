@@ -1,5 +1,7 @@
 from django.test import TestCase
 from httmock import all_requests, HTTMock
+from mock import MagicMock
+import requests
 
 from django_seo_js.tests.utils import override_settings
 from django_seo_js.backends import PrerenderIO
@@ -41,6 +43,23 @@ class PrerenderIOTestToken(TestCase):
         self.assertEqual(self.backend._get_token(), "123124341adfsaf")
         # Test __init__
         self.assertEqual(self.backend.token, "123124341adfsaf")
+
+
+class PrerenderTimeout(TestCase):
+
+    @override_settings(PRERENDER_TIMEOUT=5)
+    def test_timeout_setting(self):
+        self.backend = PrerenderIO()
+        self.assertEqual(self.backend._request_kwargs({}), {'timeout': 5})
+
+    @override_settings(PRERENDER_TIMEOUT=5)
+    def test_timeout_response(self):
+        self.backend = PrerenderIO()
+        self.backend.session.get = MagicMock(
+            side_effect=requests.exceptions.Timeout()
+        )
+        resp = self.backend.get_response_for_url("http://www.example.com")
+        self.assertEqual(resp.status_code, 408)
 
 
 class PrerenderIOTestMethods(TestCase):
