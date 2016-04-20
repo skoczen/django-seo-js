@@ -25,7 +25,6 @@ class TestServiceDownBackend(SEOBackendBase):
         r["test rendered"] = "headers"
         r.status_code = 503
         r.content_type = "text/html"
-        assert r.status_code < 500
 
     def update_url(self, url):
         return False
