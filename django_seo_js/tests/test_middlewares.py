@@ -88,6 +88,37 @@ class EscapedFragmentMiddlewareTest(TestCase):
         self.request.path = "/bar/ibbity.txt"
         self.assertEqual(self.middleware.process_request(self.request), None)
 
+    @override_settings(
+        BACKEND='django_seo_js.backends.TestBackend',
+        ALLOWED_URLS=['/bar/*', '/test/abc/*', '/foo/'],
+        IGNORE_URLS=[],
+        IGNORE_EXTENSIONS=[],
+    )
+    def test_overriding_with_allowed_urls(self):
+        self.middleware = EscapedFragmentMiddleware()
+        self.request.GET = {"_escaped_fragment_": None}
+
+        self.request.path = '/bar/'
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = '/bar/1234/'
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = '/bar/foo/5678/'
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = '/test/abc/1234/'
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = '/test/ab/1234/'
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
+        self.request.path = '/foo/'
+        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+
+        self.request.path = '/foo/1234/'
+        self.assertEqual(self.middleware.process_request(self.request), None)
+
 
 class HashBangMiddlewareTest(EscapedFragmentMiddlewareTest):
 
