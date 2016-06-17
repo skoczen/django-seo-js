@@ -4,8 +4,6 @@ ENABLED = getattr(django_settings, 'SEO_JS_ENABLED', not django_settings.DEBUG)
 
 IGNORE_URLS = frozenset(getattr(django_settings, 'SEO_JS_IGNORE_URLS', ['/sitemap.xml']))
 
-# ALLOWED_URLS will override IGNORE_URLS
-# i.e. If a url exists at both IGNORE_URLS and ALLOWED_URLS, it's considered ALLOWED.
 ALLOWED_URLS = frozenset(getattr(django_settings, 'SEO_JS_ALLOWED_URLS', []))
 
 IGNORE_EXTENSIONS = frozenset(getattr(django_settings, 'SEO_JS_IGNORE_EXTENSIONS', (

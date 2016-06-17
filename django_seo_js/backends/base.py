@@ -61,10 +61,15 @@ class RequestsBasedBackend(object):
         self.session = requests.Session()
 
     def build_django_response_from_requests_response(self, response):
-        r = HttpResponse(response.content)
+        if response.content:
+            resp = HttpResponse(response.content)
+            resp['Content-Length'] = len(response.content)
+        else:
+            resp = HttpResponse()
+
+        resp.status_code = response.status_code
+
         for k, v in response.headers.items():
-            if k not in IGNORED_HEADERS:
-                r[k] = v
-        r['content-length'] = len(response.content)
-        r.status_code = response.status_code
-        return r
+            if k.lower() not in IGNORED_HEADERS:
+                resp[k] = v
+        return resp
