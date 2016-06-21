@@ -91,18 +91,20 @@ class EscapedFragmentMiddlewareTest(TestCase):
     @override_settings(
         BACKEND='django_seo_js.backends.TestBackend',
         ALLOWED_URLS=['/bar/*', '/test/abc/*', '/foo/'],
-        IGNORE_URLS=[],
+        IGNORE_URLS=['/bar/1234/'],
         IGNORE_EXTENSIONS=[],
     )
     def test_overriding_with_allowed_urls(self):
         self.middleware = EscapedFragmentMiddleware()
         self.request.GET = {"_escaped_fragment_": None}
 
+        # In the white list, not in black list -> "Test"
         self.request.path = '/bar/'
         self.assertEqual(self.middleware.process_request(self.request).content, "Test")
 
+        # In the white list and black list -> None
         self.request.path = '/bar/1234/'
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request), None)
 
         self.request.path = '/bar/foo/5678/'
         self.assertEqual(self.middleware.process_request(self.request).content, "Test")
