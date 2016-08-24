@@ -1,5 +1,5 @@
 from django_seo_js import settings
-from base import SEOBackendBase, RequestsBasedBackend
+from .base import SEOBackendBase, RequestsBasedBackend
 
 
 class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
