@@ -4,7 +4,7 @@ from django.test import TestCase
 from django_seo_js.tests.utils import override_settings
 from django_seo_js.middleware import EscapedFragmentMiddleware, UserAgentMiddleware, HashBangMiddleware
 
-print override_settings
+print(override_settings)
 
 
 class BaseMiddlewareTest(TestCase):
