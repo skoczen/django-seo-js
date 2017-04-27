@@ -1,5 +1,6 @@
 from django_seo_js import settings
 from base import SEOBackendBase, RequestsBasedBackend
+import json
 
 
 class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
@@ -55,7 +56,7 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
         if regex:
             data["regex"] = regex
 
-        r = self.session.post(self.RECACHE_URL, headers=headers, data=data)
+        r = self.session.post(self.RECACHE_URL, headers=headers, data=json.dumps(data))
         return r.status_code < 500
 
 
