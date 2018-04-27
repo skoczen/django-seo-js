@@ -18,7 +18,7 @@ IGNORED_HEADERS = frozenset((
 
 class SelectedBackend(MiddlewareMixin):
 
-    def __init__(self, get_response, *args, **kwargs):
+    def __init__(self, get_response=None, *args, **kwargs):
         self.get_response = get_response
         module_path = settings.BACKEND
         backend_module = importlib.import_module(".".join(module_path.split(".")[:-1]))
