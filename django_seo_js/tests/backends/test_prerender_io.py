@@ -1,10 +1,12 @@
+from __future__ import unicode_literals
+
 from django.test import TestCase
 from httmock import all_requests, HTTMock
 
 from django_seo_js.tests.utils import override_settings
 from django_seo_js.backends import PrerenderIO
 
-MOCK_RESPONSE = "<html><body><h1>Hello, World!</h1></body></html>"
+MOCK_RESPONSE = b"<html><body><h1>Hello, World!</h1></body></html>"
 MOCK_RESPONSE_HEADERS = {"foo": "bar"}
 MOCK_RECACHE_RESPONSE = "OK"
 MOCK_RECACHE_HEADERS = {"ibbity": "ack"}

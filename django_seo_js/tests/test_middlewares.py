@@ -1,10 +1,12 @@
+from __future__ import unicode_literals
+
 from mock import Mock
 from django.test import TestCase
 
 from django_seo_js.tests.utils import override_settings
 from django_seo_js.middleware import EscapedFragmentMiddleware, UserAgentMiddleware, HashBangMiddleware
 
-print override_settings
+print(override_settings)
 
 
 class BaseMiddlewareTest(TestCase):
@@ -23,7 +25,7 @@ class EscapedFragmentMiddlewareTest(TestCase):
 
     def test_has_escaped_fragment(self):
         self.request.GET = {"_escaped_fragment_": None}
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, b"Test")
 
     def test_does_not_have_escaped_fragment(self):
         self.request.GET = {}
@@ -57,7 +59,7 @@ class EscapedFragmentMiddlewareTest(TestCase):
         self.middleware = EscapedFragmentMiddleware()
         self.request.path = "/sitemap.xml"
         self.request.GET = {"_escaped_fragment_": None}
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, b"Test")
 
         self.request.path = "/foo.html"
         self.assertEqual(self.middleware.process_request(self.request), None)
@@ -80,7 +82,7 @@ class EscapedFragmentMiddlewareTest(TestCase):
         self.middleware = EscapedFragmentMiddleware()
         self.request.path = "/foo.gif"
         self.request.GET = {"_escaped_fragment_": None}
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, b"Test")
 
         self.request.path = "/foo.html"
         self.assertEqual(self.middleware.process_request(self.request), None)
@@ -115,7 +117,7 @@ class UserAgentMiddlewareTest(TestCase):
             "HTTP_USER_AGENT":
             "Mozilla/2.0 (compatible; Ask Jeeves/Teoma; +http://about.ask.com/en/docs/about/webmasters.shtml)"
         }
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, b"Test")
 
     def test_does_not_match_one_of_the_default_user_agents(self):
         self.request.META = {
@@ -132,7 +134,7 @@ class UserAgentMiddlewareTest(TestCase):
         self.request.META = {
             "HTTP_USER_AGENT": "The TestUserAgent v1.0"
         }
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, b"Test")
 
     @override_settings(
         USER_AGENTS=["TestUserAgent", ],
@@ -194,7 +196,7 @@ class UserAgentMiddlewareTest(TestCase):
             "HTTP_USER_AGENT":
             "Mozilla/2.0 (compatible; Ask Jeeves/Teoma; +http://about.ask.com/en/docs/about/webmasters.shtml)"
         }
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, b"Test")
 
         self.request.path = "/foo.html"
         self.assertEqual(self.middleware.process_request(self.request), None)
@@ -223,7 +225,7 @@ class UserAgentMiddlewareTest(TestCase):
             "HTTP_USER_AGENT":
             "Mozilla/2.0 (compatible; Ask Jeeves/Teoma; +http://about.ask.com/en/docs/about/webmasters.shtml)"
         }
-        self.assertEqual(self.middleware.process_request(self.request).content, "Test")
+        self.assertEqual(self.middleware.process_request(self.request).content, b"Test")
 
         self.request.path = "/foo.html"
         self.assertEqual(self.middleware.process_request(self.request), None)

@@ -14,10 +14,12 @@ DATABASES = {
 }
 
 SECRET_KEY = 'alksjdf93jqpijsdaklfjq;3lejqklejlakefjas'
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
 
 MIDDLEWARE_CLASSES = (
     'django_seo_js.middleware.EscapedFragmentMiddleware',
