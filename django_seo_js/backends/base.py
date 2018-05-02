@@ -1,5 +1,6 @@
 import importlib
 import requests
+from django.utils.deprecation import MiddlewareMixin
 from django.http import HttpResponse
 from django_seo_js import settings
 
@@ -11,9 +12,10 @@ IGNORED_HEADERS = frozenset((
 ))
 
 
-class SelectedBackend(object):
+class SelectedBackend(MiddlewareMixin):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, get_response=None, *args, **kwargs):
+        self.get_response = get_response
         module_path = settings.BACKEND
         backend_module = importlib.import_module(".".join(module_path.split(".")[:-1]))
         self.backend = getattr(backend_module, module_path.split(".")[-1])()
