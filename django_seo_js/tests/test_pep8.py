@@ -18,6 +18,7 @@ class TestCodeFormat(unittest.TestCase):
         ignored_folders = [
             ".git",
             "venv",
+            ".tox",
         ]
 
         pep8style = pep8.StyleGuide(

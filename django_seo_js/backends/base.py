@@ -3,6 +3,11 @@ import requests
 from django.http import HttpResponse
 from django_seo_js import settings
 
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
+
 
 IGNORED_HEADERS = frozenset((
     'connection', 'keep-alive', 'proxy-authenticate',
@@ -11,15 +16,16 @@ IGNORED_HEADERS = frozenset((
 ))
 
 
-class SelectedBackend(object):
+class SelectedBackend(MiddlewareMixin):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, get_response=None, *args, **kwargs):
+        self.get_response = get_response
         module_path = settings.BACKEND
         backend_module = importlib.import_module(".".join(module_path.split(".")[:-1]))
         self.backend = getattr(backend_module, module_path.split(".")[-1])()
 
 
-class SEOBackendBase(object):
+class SEOBackendBase(MiddlewareMixin):
     """The base class to inherit for SEO_JS backends"""
 
     def build_absolute_uri(self, request):
@@ -63,7 +69,7 @@ class RequestsBasedBackend(object):
     def build_django_response_from_requests_response(self, response):
         r = HttpResponse(response.content)
         for k, v in response.headers.items():
-            if k not in IGNORED_HEADERS:
+            if k.lower() not in IGNORED_HEADERS:
                 r[k] = v
         r['content-length'] = len(response.content)
         r.status_code = response.status_code

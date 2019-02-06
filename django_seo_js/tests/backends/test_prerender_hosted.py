@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import random
 import string
 
@@ -7,11 +9,12 @@ from httmock import all_requests, HTTMock
 from django_seo_js.tests.utils import override_settings
 from django_seo_js.backends import PrerenderHosted
 
-MOCK_RESPONSE = "<html><body><h1>Hello, World!</h1></body></html>"
+MOCK_RESPONSE = b"<html><body><h1>Hello, World!</h1></body></html>"
 MOCK_RESPONSE_HEADERS = {"foo": "bar"}
 MOCK_RECACHE_RESPONSE = "OK"
 MOCK_RECACHE_HEADERS = {"ibbity": "ack"}
-MOCK_GIANT_RESPONSE = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(200000))
+_ascii = string.ascii_uppercase + string.digits
+MOCK_GIANT_RESPONSE = ''.join(random.choice(_ascii) for _ in range(200000)).encode('ascii')
 
 
 @all_requests
