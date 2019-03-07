@@ -33,10 +33,6 @@ setup(
     author_email="steven@greenkahuna.com",
     url="https://github.com/skoczen/django-seo-js",
     version=VERSION,
-    download_url=[
-        'https://github.com/skoczen/django-seo-js/archive/%s.tar.gz'
-        % VERSION,
-    ],
     install_requires=reqs,
     tests_require=test_reqs,
     packages=find_packages(),
