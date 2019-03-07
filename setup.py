@@ -34,7 +34,7 @@ setup(
     url="https://github.com/skoczen/django-seo-js",
     version=VERSION,
     download_url=[
-        'https://github.com/skoczen/django-seo-js/tarball/%s'
+        'https://github.com/skoczen/django-seo-js/archive/%s.tar.gz'
         % VERSION,
     ],
     install_requires=reqs,
