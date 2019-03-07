@@ -31,10 +31,10 @@ setup(
     long_description=long_description,
     author="Steven Skoczen",
     author_email="steven@greenkahuna.com",
-    url="https://github.com/greenkahuna/django-seo-js",
+    url="https://github.com/skoczen/django-seo-js",
     version=VERSION,
     download_url=[
-        'https://github.com/greenkahuna/django-seo-js/tarball/%s'
+        'https://github.com/skoczen/django-seo-js/tarball/%s'
         % VERSION,
     ],
     install_requires=reqs,
