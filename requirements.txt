@@ -1,2 +1,2 @@
-requests==2.19.1
+requests
 Django
