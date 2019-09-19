@@ -1,7 +1,0 @@
-dependencies:
-  override:
-    - pip install -r requirements.tests.txt
-
-test:
-  override:
-    - python manage.py test
