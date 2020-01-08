@@ -246,6 +246,10 @@ Original development was at GreenKahuna (now defunct.)
 
 # Releases
 
+### 0.3.3 - Jan 8, 2020
+
+Add `SEO_JS_SEND_USER_AGENT` setting.
+
 ### 0.3.2 - March 6, 2019
 
 See [releases](https://github.com/skoczen/django-seo-js/releases)
