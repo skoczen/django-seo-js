@@ -16,7 +16,7 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
             raise ValueError("Missing SEO_JS_PRERENDER_TOKEN in settings.")
         return settings.PRERENDER_TOKEN
 
-    def get_response_for_url(self, url):
+    def get_response_for_url(self, url, request=None):
         """
         Accepts a fully-qualified url.
         Returns an HttpResponse, passing through all headers and the status code.
@@ -29,6 +29,9 @@ class PrerenderIO(SEOBackendBase, RequestsBasedBackend):
         headers = {
             'X-Prerender-Token': self.token,
         }
+        if request and settings.SEND_USER_AGENT:
+            headers.update({'User-Agent': request.META.get('HTTP_USER_AGENT')})
+
         r = self.session.get(render_url, headers=headers, allow_redirects=False)
         assert r.status_code < 500
 

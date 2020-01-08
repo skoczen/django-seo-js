@@ -6,7 +6,7 @@ from .base import SEOBackendBase
 class TestBackend(SEOBackendBase):
     """Implements a test backend"""
 
-    def get_response_for_url(self, url):
+    def get_response_for_url(self, url, request=None):
         r = HttpResponse("Test")
         r["test rendered"] = "headers"
         r.status_code = 200
@@ -20,7 +20,7 @@ class TestBackend(SEOBackendBase):
 class TestServiceDownBackend(SEOBackendBase):
     """Implements a test backend"""
 
-    def get_response_for_url(self, url):
+    def get_response_for_url(self, url, request=None):
         r = HttpResponse("Service Down")
         r["test rendered"] = "headers"
         r.status_code = 503

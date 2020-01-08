@@ -97,6 +97,10 @@ SEO_JS_IGNORE_EXTENSIONS = [
     ".txt",
     # See helpers.py for full list of extensions ignored by default.
 ]
+
+# Whether or not to pass along the original request's user agent to the prerender service. 
+# Useful for analytics, understanding where requests are coming from.
+SEO_JS_SEND_USER_AGENT = True
 ```
 
 ## Backend settings
@@ -135,9 +139,10 @@ Backends must implement the following methods:
 
 class MyBackend(SEOBackendBase):
 
-    def get_response_for_url(self, url):
+    def get_response_for_url(self, url, request=None):
         """
         Accepts a fully-qualified url.
+        Optionally accepts the django request object, so that headers, etc. may be passed along to the prerenderer.
         Returns an HttpResponse, passing through all headers and the status code.
         """
         raise NotImplementedError
