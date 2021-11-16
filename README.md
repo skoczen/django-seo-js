@@ -241,10 +241,15 @@ django-seo-js was originally written and is maintained by [Steven Skoczen](https
 - [mattrobenolt](https://github.com/mattrobenolt) mad things faster, better, and stronger.
 - [rchrd2](https://github.com/rchrd2) fixed a breaking bug with the user agent middleware.
 - [thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
+- [bhoop77](https://github.com/bhoop77) fixed the defaults to work wiht Googlebot's new setup.
+
 
 Original development was at GreenKahuna (now defunct.)
 
 # Releases
+
+### 0.3.4 - Jan 8, 2020
+Fixes googlebot defaults [issue](https://github.com/skoczen/django-seo-js/issues/39).
 
 ### 0.3.3 - Jan 8, 2020
 
