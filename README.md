@@ -242,11 +242,16 @@ django-seo-js was originally written and is maintained by [Steven Skoczen](https
 - [rchrd2](https://github.com/rchrd2) fixed a breaking bug with the user agent middleware.
 - [thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
 - [bhoop77](https://github.com/bhoop77) fixed the defaults to work wiht Googlebot's new setup.
+- [varrocs](https://github.com/varrocs) updated the list of user agents to match prerender.io's current list.
+
 
 
 Original development was at GreenKahuna (now defunct.)
 
 # Releases
+
+### 0.3.5 - Nov 26, 2021
+Adds more default user agents to bring things into the present day.  [issue](https://github.com/skoczen/django-seo-js/pull/41).
 
 ### 0.3.4 - Jan 8, 2020
 Fixes googlebot defaults [issue](https://github.com/skoczen/django-seo-js/issues/39).
