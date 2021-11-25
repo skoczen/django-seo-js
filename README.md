@@ -1,7 +1,7 @@
 django-seo-js
 =============
 
-[![Build Status](https://circleci.com/gh/skoczen/django-seo-js/tree/master.svg?style=svg&circle-token=90ca5d5cbeb2af20bc378faf1b196e6c03e69f26)](https://circleci.com/gh/skoczen/django-seo-js/tree/master) ![Pypi Badge](https://badge.fury.io/py/django-seo-js.png)   ![Downloads Badge](https://pypip.in/d/django-seo-js/badge.png)
+[![Build Status](https://circleci.com/gh/skoczen/django-seo-js/tree/master.svg?style=svg&circle-token=90ca5d5cbeb2af20bc378faf1b196e6c03e69f26)](https://circleci.com/gh/skoczen/django-seo-js/tree/master) ![Pypi Badge](https://badge.fury.io/py/django-seo-js.png)   ![Downloads Badge](https://img.shields.io/pypi/dm/django-seo-js.svg)
 
 django-seo-js is a drop-in app that provides full SEO support for angular, backbone, ember, famo.us, and other SPA apps built with django.
 
