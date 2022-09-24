@@ -25,7 +25,7 @@ class SelectedBackend(MiddlewareMixin):
         self.backend = getattr(backend_module, module_path.split(".")[-1])()
 
 
-class SEOBackendBase(MiddlewareMixin):
+class SEOBackendBase:
     """The base class to inherit for SEO_JS backends"""
 
     def build_absolute_uri(self, request):
