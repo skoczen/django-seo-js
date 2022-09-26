@@ -243,6 +243,7 @@ django-seo-js was originally written and is maintained by [Steven Skoczen](https
 - [thoop](https://github.com/thoop) gave you `SEO_JS_IGNORE_EXTENSIONS`, allowing you to ignore by extension.
 - [bhoop77](https://github.com/bhoop77) fixed the defaults to work wiht Googlebot's new setup.
 - [varrocs](https://github.com/varrocs) updated the list of user agents to match prerender.io's current list.
+- [sarahboyce](https://github.com/sarahboyce) added support for Django 4.1.
 
 
 
