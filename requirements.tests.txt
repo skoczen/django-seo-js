@@ -1,6 +1,7 @@
-fabric
+fabric<2
 httmock
 mock
 nose
 pep8
 tox
+twine<2

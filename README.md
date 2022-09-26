@@ -250,6 +250,9 @@ Original development was at GreenKahuna (now defunct.)
 
 # Releases
 
+### 0.4.0 - Nov 26, 2021
+Adds support for Django 4.1.  [issue](https://github.com/skoczen/django-seo-js/pull/42).
+
 ### 0.3.5 - Nov 26, 2021
 Adds more default user agents to bring things into the present day.  [issue](https://github.com/skoczen/django-seo-js/pull/41).
 

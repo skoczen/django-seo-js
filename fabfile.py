@@ -23,7 +23,10 @@ def tag_release():
 
 
 def upload_release():
-    local("python setup.py sdist upload")
+    local("python setup.py sdist")
+    local("python setup.py bdist_wheel --universal")
+    local("twine upload dist/*")
+    local("rm dist/*")
 
 
 def release():
@@ -73,5 +76,5 @@ def deploy_docs():
         local("git commit -m 'Auto-update of docs: %s'" % last_commit)
         local("git push")
     else:
-        print "No changes to the docs."
+        print("No changes to the docs.")
     local("git checkout %s" % current_branch)
