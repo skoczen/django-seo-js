@@ -1,4 +1,5 @@
 from functools import wraps
+from django.http.response import HttpResponse
 from django_seo_js import settings
 
 
@@ -28,3 +29,7 @@ class override_settings(object):
     def disable(self):
         for k, v in self.originals.items():
             setattr(settings, k, v)
+
+
+def get_response_empty(request):
+    return HttpResponse()
