@@ -1,10 +1,10 @@
 from django_seo_js import settings
-from django_seo_js.backends import SelectedBackend
+from django_seo_js.backends import SelectedBackendMixin
 
 
 def update_cache_for_url(url):
     if settings.ENABLED:
-        selector = SelectedBackend()
+        selector = SelectedBackendMixin()
         return selector.backend.update_url(url)
     return False
 
