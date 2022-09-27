@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from django_seo_js.tests.utils import override_settings
-from django_seo_js.backends import PrerenderIO, SelectedBackend, SEOBackendBase, TestBackend
+from django_seo_js.tests.utils import override_settings, get_response_empty
+from django_seo_js.backends import PrerenderIO, SelectedBackend, SelectedBackendMixin, SEOBackendBase, TestBackend
 
 
 class SEOBackendBaseTest(TestCase):
@@ -18,10 +18,14 @@ class SEOBackendBaseTest(TestCase):
 class SelectedBackendTest(TestCase):
 
     def test_default_backend(self):
-        s = SelectedBackend()
+        s_mixin = SelectedBackendMixin()
+        s = SelectedBackend(get_response_empty)
+        self.assertTrue(isinstance(s_mixin.backend, PrerenderIO))
         self.assertTrue(isinstance(s.backend, PrerenderIO))
 
     @override_settings(BACKEND='django_seo_js.backends.TestBackend')
     def test_override_backend(self):
-        s = SelectedBackend()
+        s_mixin = SelectedBackendMixin()
+        s = SelectedBackend(get_response_empty)
+        self.assertTrue(isinstance(s_mixin.backend, TestBackend))
         self.assertTrue(isinstance(s.backend, TestBackend))

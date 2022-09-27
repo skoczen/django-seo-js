@@ -16,13 +16,16 @@ IGNORED_HEADERS = frozenset((
 ))
 
 
-class SelectedBackend(MiddlewareMixin):
-
-    def __init__(self, get_response=None, *args, **kwargs):
-        self.get_response = get_response
+class SelectedBackendMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         module_path = settings.BACKEND
         backend_module = importlib.import_module(".".join(module_path.split(".")[:-1]))
         self.backend = getattr(backend_module, module_path.split(".")[-1])()
+
+
+class SelectedBackend(MiddlewareMixin, SelectedBackendMixin):
+    pass
 
 
 class SEOBackendBase:
